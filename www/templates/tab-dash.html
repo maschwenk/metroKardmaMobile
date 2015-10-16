@@ -8,7 +8,12 @@
       <div class="item item-body">
         <div>
           Latitude: {{station.latitude}}
-          Longitude: {{station.longitude}}
+          Longitude: {{station.longitude}}<br>
+          <ul ng-repeat="exchange in station.pending_exchanges">
+            Swipees Waiting:
+            <ul ng-show="exchange.receiver">{{exchange.receiver.email}}</ul>
+            Swipers Waiting:
+            <ul ng-show="exchange.giver">{{exchange.giver.email}}</ul>
           <!-- <ui-gmap-google-map center='dashCtl.map.center' zoom='dashCtl.map.zoom'></ui-gmap-google-map> -->
         </div>
       </div>

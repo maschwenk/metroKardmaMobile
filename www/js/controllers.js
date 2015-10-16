@@ -29,6 +29,24 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
           animation: google.maps.Animation.DROP,
           position: location
         })
+
+        console.log(station.pending_exchanges[0])
+
+
+        // if (station.kardma_exchanges[0].receiver) {
+
+        //   var infoWindow = new google.maps.InfoWindow({
+        //   content: station.kardma_exchanges[0].receiver.email
+        //   });
+
+        //    google.maps.event.addListener(marker, 'click', function(){
+        //     infoWindow.open(vm.map, marker)
+        //   })
+        // };
+
+
+
+
       })
 
     })
