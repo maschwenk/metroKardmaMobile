@@ -30,8 +30,6 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
           position: location
         })
 
-        console.log(station.pending_exchanges[0])
-
 
         // if (station.kardma_exchanges[0].receiver) {
 
