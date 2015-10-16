@@ -5,19 +5,29 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   vm.stations = Stations.queryAll();
 
   var options = {timeout: 10000, enableHighAccuracy: true};
- 
+
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
- 
+
+    var firstStation = new google.maps.LatLng(vm.stations[0].latitude, vm.stations[0].longitude)
+
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
+
     var mapOptions = {
       center: latLng,
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
- 
+
     vm.map =  new google.maps.Map(document.getElementById("map"), mapOptions);
- 
+
+    google.maps.event.addListenerOnce(vm.map, 'idle', function() {
+      var wallMarker = new google.maps.Marker({
+        map: vm.map,
+        animation: google.maps.Animation.DROP,
+        position: firstStation
+      })
+    })
+
   }, function(error){
     console.log("Could not get location");
   });
@@ -25,12 +35,13 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
   var vm = this;
+
   var options = {timeout: 10000, enableHighAccuracy: true};
- 
+
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
- 
+
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
- 
+
     var mapOptions = {
       center: latLng,
       zoom: 15,
@@ -38,7 +49,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     };
 
     vm.map = new google.maps.Map(document.getElementById("map"), mapOptions);
- 
+
   }, function(error){
     console.log("Could not get location");
   });
