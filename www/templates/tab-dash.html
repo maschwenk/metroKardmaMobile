@@ -1,13 +1,14 @@
 <ion-view view-title="Dashboard">
   <ion-content class="padding">
-      
+
       <div id="map" data-tap-disabled="true"></div>
 
       <div class="list card" ng-repeat="station in dashCtl.stations">
       <div class="item item-divider">Station</div>
       <div class="item item-body">
         <div>
-          Address: {{station.address}}
+          Latitude: {{station.latitude}}
+          Longitude: {{station.longitude}}
           <!-- <ui-gmap-google-map center='dashCtl.map.center' zoom='dashCtl.map.zoom'></ui-gmap-google-map> -->
         </div>
       </div>
