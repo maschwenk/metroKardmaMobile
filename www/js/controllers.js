@@ -8,7 +8,6 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 
-    var firstStation = new google.maps.LatLng(vm.stations[0].latitude, vm.stations[0].longitude)
 
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
@@ -21,11 +20,17 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     vm.map =  new google.maps.Map(document.getElementById("map"), mapOptions);
 
     google.maps.event.addListenerOnce(vm.map, 'idle', function() {
-      var wallMarker = new google.maps.Marker({
-        map: vm.map,
-        animation: google.maps.Animation.DROP,
-        position: firstStation
+
+      vm.stations.forEach(function(station){
+        var location = new google.maps.LatLng(station.latitude, station.longitude)
+
+        var marker = new google.maps.Marker({
+          map: vm.map,
+          animation: google.maps.Animation.DROP,
+          position: location
+        })
       })
+
     })
 
   }, function(error){
