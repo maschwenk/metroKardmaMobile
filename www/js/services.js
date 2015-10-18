@@ -48,6 +48,22 @@ angular.module('starter.services', [])
     }
   };
 })
+.factory('Users', function() {
+  // Might use a resource here that returns a JSON array
+
+  // Some fake testing data
+  return $resource('http://localhost:3000/users/', {}, {
+    queryAll: {
+      method: 'GET',
+      cache: false,
+      isArray: true
+    }
+  });
+})
+.factory("FirebaseChat", function($firebaseArray) {
+  var chats = new Firebase("https://burning-inferno-6075.firebaseio.com/chats");
+  return $firebaseArray(chats);
+})
 .factory('Stations', function($resource) {
   // Might use a resource here that returns a JSON array
 
@@ -59,5 +75,6 @@ angular.module('starter.services', [])
             isArray: true
         }
     });
+  //return $http.get()
   //return $resource("http://localhost:3000/stations/");
 });

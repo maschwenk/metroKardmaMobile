@@ -22,13 +22,13 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     google.maps.event.addListenerOnce(vm.map, 'idle', function() {
 
       vm.stations.forEach(function(station){
-        var location = new google.maps.LatLng(station.latitude, station.longitude)
+        var location = new google.maps.LatLng(station.latitude, station.longitude);
 
         var marker = new google.maps.Marker({
           map: vm.map,
           animation: google.maps.Animation.DROP,
           position: location
-        })
+        });
 
 
         // if (station.kardma_exchanges[0].receiver) {
