@@ -31,19 +31,13 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         });
 
 
-        // if (station.kardma_exchanges[0].receiver) {
+          var infoWindow = new google.maps.InfoWindow({
+          content: station.name +"("+station.lines+")"
+          });
 
-        //   var infoWindow = new google.maps.InfoWindow({
-        //   content: station.kardma_exchanges[0].receiver.email
-        //   });
-
-        //    google.maps.event.addListener(marker, 'click', function(){
-        //     infoWindow.open(vm.map, marker)
-        //   })
-        // };
-
-
-
+           google.maps.event.addListener(marker, 'click', function(){
+            infoWindow.open(vm.map, marker)
+          })
 
       })
 
