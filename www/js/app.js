@@ -32,10 +32,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $stateProvider
 
   // setup an abstract state for the tabs directive
-  .state('chooseRole', {
-    url: '/',
-    templateUrl: 'templates/roles.html'
-  })
   .state('tab', {
     url: '/tab',
     abstract: true,
