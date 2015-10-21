@@ -77,4 +77,17 @@ angular.module('starter.services', [])
     });
   //return $http.get()
   //return $resource("http://localhost:3000/stations/");
-});
+})
+.factory('Station', function($http){
+  var o = {
+    stations: []
+  };
+
+  o.get = function(id) {
+    return $http.get('http://localhost:3000/stations/' + id + '.json').then(function(res) {
+      return res.data
+    })
+  }
+
+  return o
+})

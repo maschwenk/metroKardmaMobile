@@ -56,6 +56,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         templateUrl: 'templates/tab-dash-station.html',
         controller: 'StationCtrl'
       }
+    },
+    resolve: {
+      station: function($stateParams, Station){
+        return Station.get($stateParams.stationId)
+      }
     }
   })
 

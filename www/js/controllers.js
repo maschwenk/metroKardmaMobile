@@ -100,9 +100,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   };
 })
 
-.controller('StationCtrl', function($scope, $stateParams, Stations) {
+.controller('StationCtrl', function($scope, $stateParams, station) {
   // make a get request for a specific station, using $stateParams.stationId
-  $scope.station = $stateParams.stationId
+  $scope.station = station
 
 });
 
