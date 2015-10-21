@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
-.controller('DashCtrl', function($scope,$cordovaGeolocation, Stations) {
+.controller('DashCtrl', function($scope,$cordovaGeolocation, $state, Stations) {
   var vm = this;
   vm.stations = Stations.queryAll();
 
@@ -31,12 +31,17 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         });
 
 
+
+
           var infoWindow = new google.maps.InfoWindow({
           content: station.name +"("+station.lines+")"
           });
 
            google.maps.event.addListener(marker, 'click', function(){
-            infoWindow.open(vm.map, marker)
+            infoWindow.open(vm.map, marker);
+            $state.go('tab.dash.station', { stationId: station.id});
+            console.log(station.id)
+            //pass station into this $state.go --> tab.dash.station
           })
 
       })
@@ -48,27 +53,27 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   });
 })
 
-.controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
-  var vm = this;
+// .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
+//   var vm = this;
 
-  var options = {timeout: 10000, enableHighAccuracy: true};
+//   var options = {timeout: 10000, enableHighAccuracy: true};
 
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+//   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+//     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
+//     var mapOptions = {
+//       center: latLng,
+//       zoom: 15,
+//       mapTypeId: google.maps.MapTypeId.ROADMAP
+//     };
 
-    vm.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+//     vm.map = new google.maps.Map(document.getElementById("map"), mapOptions);
 
-  }, function(error){
-    console.log("Could not get location");
-  });
-})
+//   }, function(error){
+//     console.log("Could not get location");
+//   });
+// })
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
@@ -93,4 +98,11 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   $scope.settings = {
     enableFriends: true
   };
+})
+
+.controller('StationCtrl', function($scope, $stateParams, Stations) {
+  // make a get request for a specific station, using $stateParams.stationId
+  $scope.station = $stateParams.stationId
+
 });
+
