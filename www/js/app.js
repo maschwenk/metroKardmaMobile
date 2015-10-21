@@ -31,6 +31,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+  .state('chooseRole', {
+    url: '/choose',
+    templateUrl: 'templates/choose.html'
+  })
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
@@ -49,11 +53,20 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
-  .state('tab.dash.station', {
+  .state('tab.dash.swiper', {
+    url: '/swiper',
+    views: {
+      'tab-dash-swiper': {
+        templateUrl: 'templates/tab-dash-swiper.html',
+        controller: 'DashSwiperCtrl'
+      }
+    }
+  })
+  .state('tab.dash.swiper.station', {
     url: '/station/:stationId',
     views: {
-      'tab-dash-station': {
-        templateUrl: 'templates/tab-dash-station.html',
+      'tab-dash-swiper-station': {
+        templateUrl: 'templates/tab-dash-swiper-station.html',
         controller: 'StationCtrl'
       }
     },
@@ -95,6 +108,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/choose');
 
 });

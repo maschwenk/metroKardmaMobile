@@ -1,6 +1,10 @@
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
-.controller('DashCtrl', function($scope,$cordovaGeolocation, $state, Stations) {
+.controller("DashCtrl", function() {
+
+})
+
+.controller('DashSwiperCtrl', function($scope,$cordovaGeolocation, $state, Stations) {
   var vm = this;
   vm.stations = Stations.queryAll();
 
@@ -39,9 +43,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
            google.maps.event.addListener(marker, 'click', function(){
             infoWindow.open(vm.map, marker);
-            $state.go('tab.dash.station', { stationId: station.id});
-            console.log(station.id)
-            //pass station into this $state.go --> tab.dash.station
+            $state.go('tab.dash.swiper.station', { stationId: station.id});
+            console.log(station)
           })
 
       })
@@ -103,5 +106,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 .controller('StationCtrl', function($scope, station) {
   $scope.station = station;
 
-});
+})
+
+// .controller('DashSwiperCtrl', function($scope){
+
+// });
 
