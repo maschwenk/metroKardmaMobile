@@ -32,6 +32,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $stateProvider
 
   // setup an abstract state for the tabs directive
+  .state('chooseRole', {
+    url: '/',
+    templateUrl: 'templates/roles.html'
+  })
   .state('tab', {
     url: '/tab',
     abstract: true,
@@ -46,6 +50,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
         controller: 'DashCtrl as dashCtl'
+      }
+    }
+  })
+  .state('tab.dash.station', {
+    url: '/station/:stationId',
+    views: {
+      'tab-dash-station': {
+        templateUrl: 'templates/tab-dash-station.html',
+        controller: 'StationCtrl'
       }
     }
   })
