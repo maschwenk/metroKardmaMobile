@@ -63,15 +63,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
-  .state('tab.dash.swipee', {
-    url: '/swipee',
-    views: {
-      'tab-dash-swipee': {
-        templateUrl: 'templates/tab-dash-swipee.html',
-        controller: 'DashSwipeeCtrl'
-      }
-    }
-  })
+
   .state('tab.dash.swiper.station', {
     url: '/station/:stationId',
     views: {
@@ -96,6 +88,30 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
 
+  })
+
+  .state('tab.dash.swipee', {
+    url: '/swipee',
+    views: {
+      'tab-dash-swipee': {
+        templateUrl: 'templates/tab-dash-swipee.html',
+        controller: 'DashSwipeeCtrl'
+      }
+    }
+  })
+  .state('tab.dash.swipee.station', {
+    url: '/station/:stationId',
+    views: {
+      'tab-dash-swipee-station' : {
+        templateUrl: 'templates/tab-dash-swipee-station.html',
+        controller: 'StationCtrl'
+      }
+    },
+    resolve: {
+      station: function($stateParams, Station){
+        return Station.get($stateParams.stationId)
+      }
+    }
   })
 
   .state('tab.chats', {
