@@ -108,7 +108,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 })
 
-// .controller('DashSwiperCtrl', function($scope){
+.controller('SwiperPendingCtrl', function($scope) {
 
-// });
+});
 
