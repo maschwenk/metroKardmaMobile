@@ -62,6 +62,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
+
+  .state('tab.dash.swipee', {
+    url: '/swipee',
+    views: {
+      'tab-dash-swipee': {
+        templateUrl: 'templates/tab-dash-swipee.html',
+        controller: 'DashSwipeeCtrl'
+      }
+    }
+  })
   .state('tab.dash.swiper.station', {
     url: '/station/:stationId',
     views: {
