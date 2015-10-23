@@ -162,5 +162,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 .controller('SwiperPendingCtrl', function($scope) {
 
+})
+
+.controller('SwipeePendingCtrl', function($scope) {
+
 });
 
