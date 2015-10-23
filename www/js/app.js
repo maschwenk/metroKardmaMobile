@@ -77,6 +77,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  .state('tab.dash.swiper.pending', {
+    url: '/pending',
+    views: {
+      'tab-dash-swiper-pending' : {
+        templateUrl: 'templates/tab-dash-swiper-pending.html',
+        controller: 'SwiperPendingCtrl'
+      }
+    }
+
+  })
+
   .state('tab.chats', {
       url: '/chats',
       views: {
