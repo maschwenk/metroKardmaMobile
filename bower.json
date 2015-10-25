@@ -6,6 +6,8 @@
   },
   "dependencies": {
     "angular-resource": "~1.4.7",
-    "ngCordova": "~0.1.20-alpha"
+    "ngCordova": "~0.1.20-alpha",
+    "ng-token-auth": "~0.0.28",
+    "AngularDevise": "angular-devise#~1.1.0"
   }
 }

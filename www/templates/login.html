@@ -1,0 +1,17 @@
+<!-- /mobile/www/templates/login.html -->
+<ion-view view-title="Login">
+  <ion-content>
+    <div class="list list-inset">
+      <label class="item item-input">
+        <input type="text" placeholder="Email" ng-model="loginCtl.loginCredentials.email">
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Password" ng-model="loginCtl.loginCredentials.password">
+      </label>
+    </div>
+
+    <div class="padding">
+      <button class="button button-block button-positive" ng-click="loginCtl.login()">Login</button>
+    </div>
+  </ion-content>
+</ion-view>
