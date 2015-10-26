@@ -59,7 +59,9 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     params: {stationId:null, role:null},
     views: {
       'tab-dash-station': {
-        templateUrl: 'templates/tab-dash-station.html',
+        templateUrl: function($stateParams) {
+          return 'templates/tab-dash-' + $stateParams.role + '-station.html'
+        },
         controller: 'StationCtrl'
       }
     },
