@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
-.controller('DashCtrl', function($scope,$cordovaGeolocation, Stations) {
+.controller('DashCtrl', function($scope,$cordovaGeolocation,$state,$stateParams, Stations) {
   var vm = this;
   vm.stations = Stations.queryAll();
 
@@ -36,7 +36,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         });
 
         google.maps.event.addListener(marker, 'click', function(){
-          infoWindow.open(vm.map, marker)
+          infoWindow.open(vm.map, marker);
+          $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
         })
 
       })
@@ -46,6 +47,16 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   }, function(error){
     console.log("Could not get location");
   });
+})
+
+.controller('StationCtrl', function($scope, $stateParams, station){
+  $scope.station = station;
+  $scope.role = $stateParams.role;
+})
+
+.controller('PendingCtrl', function($scope, $stateParams) {
+  $scope.role = $stateParams.role;
+  $scope.stationName = $stateParams.stationName;
 })
 
 .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
@@ -95,7 +106,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     vm.goToDash = goToDash;
     function goToDash(swiperOrSwipee){
       $log.info('going to dash as ' + swiperOrSwipee);
-      $state.go('tab.dash');
+      $state.go('tab.dash', {'role': swiperOrSwipee});
     }
 })
 // /mobile/www/controllers.js

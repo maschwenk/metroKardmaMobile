@@ -46,11 +46,38 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   .state('tab.dash', {
     url: '/dash',
+    params: {role:null},
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
         controller: 'DashCtrl as dashCtl',
         resolve: {resolveAuthentication : resolveAuthentication}
+      }
+    }
+  })
+  .state('tab.dash.station', {
+    params: {stationId:null, role:null},
+    views: {
+      'tab-dash-station': {
+        templateUrl: function($stateParams) {
+          return 'templates/tab-dash-' + $stateParams.role + '-station.html'
+        },
+        controller: 'StationCtrl'
+      }
+    },
+    resolve: {
+      station: function($stateParams, Station) {
+        return Station.get($stateParams.stationId, $stateParams.role)
+      }
+    }
+  })
+
+  .state('tab.dash.pending', {
+    params: {role: null, stationName:null},
+    views: {
+      'tab-dash-station': {
+        templateUrl:'templates/tab-dash-pending.html',
+        controller: 'PendingCtrl'
       }
     }
   })
