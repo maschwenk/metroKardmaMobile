@@ -50,7 +50,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 })
 
 .controller('StationCtrl', function($scope, $stateParams){
-  console.log($stateParams)
+  $scope.station = station
 })
 
 .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
