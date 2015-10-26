@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
-.controller('DashCtrl', function($scope,$cordovaGeolocation,$stateParams, Stations) {
+.controller('DashCtrl', function($scope,$cordovaGeolocation,$state,$stateParams, Stations) {
   var vm = this;
   vm.stations = Stations.queryAll();
 
@@ -36,7 +36,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         });
 
         google.maps.event.addListener(marker, 'click', function(){
-          infoWindow.open(vm.map, marker)
+          infoWindow.open(vm.map, marker);
+          $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
         })
 
       })
@@ -46,6 +47,10 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   }, function(error){
     console.log("Could not get location");
   });
+})
+
+.controller('StationCtrl', function($scope, $stateParams){
+  console.log($stateParams)
 })
 
 .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
