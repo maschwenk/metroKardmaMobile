@@ -72,6 +72,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  .state('tab.dash.pending', {
+    params: {role: null, stationName:null},
+    views: {
+      'tab-dash-station': {
+        templateUrl:'templates/tab-dash-pending.html',
+        controller: 'PendingCtrl'
+      }
+    }
+  })
+
   .state('tab.chats', {
       url: '/chats',
       views: {
