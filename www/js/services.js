@@ -45,4 +45,18 @@ angular.module('starter.services', [])
   }
 
   return o
+})
+
+.factory('kardmaExchanges', function($http) {
+  var o = {
+    kardmaExchanges: []
+  };
+
+  o.create = function(stationId, role) {
+    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role}).then(function(response) {
+        console.log(response)
+    })
+  };
+
+  return o
 });
