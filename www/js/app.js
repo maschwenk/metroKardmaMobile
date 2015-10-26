@@ -73,11 +73,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   })
 
   .state('tab.dash.pending', {
-    params: {role: null, stationName:null},
+    params: {role: null, stationName:null, stationId:null},
     views: {
       'tab-dash-station': {
         templateUrl:'templates/tab-dash-pending.html',
         controller: 'PendingCtrl'
+      }
+    },
+    resolve: {
+      exchange: function($stateParams, kardmaExchanges) {
+        return kardmaExchanges.create($stateParams.stationId, $stateParams.role)
       }
     }
   })
