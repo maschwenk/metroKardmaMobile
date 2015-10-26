@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
-.controller('DashCtrl', function($scope,$cordovaGeolocation, Stations) {
+.controller('DashCtrl', function($scope,$cordovaGeolocation,$stateParams, Stations) {
   var vm = this;
   vm.stations = Stations.queryAll();
 
@@ -95,7 +95,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     vm.goToDash = goToDash;
     function goToDash(swiperOrSwipee){
       $log.info('going to dash as ' + swiperOrSwipee);
-      $state.go('tab.dash');
+      $state.go('tab.dash', {'role': swiperOrSwipee});
     }
 })
 // /mobile/www/controllers.js
