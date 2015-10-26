@@ -54,6 +54,11 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   $scope.role = $stateParams.role;
 })
 
+.controller('PendingCtrl', function($scope, $stateParams) {
+  $scope.role = $stateParams.role;
+  $scope.stationName = $stateParams.stationName;
+})
+
 .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
   var vm = this;
 
