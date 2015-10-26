@@ -41,6 +41,8 @@ angular.module('starter.services', [])
   o.get = function(id, role) {
     return $http.get('http://localhost:3000/stations/' + id + '.json', {params: {user_role: role}}).then(function(res){
         return res.data
+    }, function(err){
+      console.log(err)
     })
   }
 
