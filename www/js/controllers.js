@@ -49,7 +49,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   });
 })
 
-.controller('StationCtrl', function($scope, $stateParams){
+.controller('StationCtrl', function($scope, $stateParams, station){
   $scope.station = station
 })
 
