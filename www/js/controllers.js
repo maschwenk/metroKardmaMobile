@@ -2,51 +2,112 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 .controller('DashCtrl', function($scope,$cordovaGeolocation,$state,$stateParams, Stations) {
   var vm = this;
-  vm.stations = Stations.queryAll();
+  //non view-model vars (these will not be accessed by the html)
+  var staticOptions = {timeout: 10000, enableHighAccuracy: true};
+  var nonStaticMapOptions = {
+    center: null,
+    zoom: 15,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var markerList = [];
 
-  var options = {timeout: 10000, enableHighAccuracy: true};
+  //done once or when the cache is refreshed
+  vm.map =  new google.maps.Map(document.getElementById("map"), nonStaticMapOptions);
+  vm.stations = null;
+  
+  Stations.queryAll(function(result){
+    vm.stations = result;
+    vm.stations.forEach(function(station){
+      var location = new google.maps.LatLng(station.latitude, station.longitude);
+      
 
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
-
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    vm.map =  new google.maps.Map(document.getElementById("map"), mapOptions);
-
-    google.maps.event.addListenerOnce(vm.map, 'idle', function() {
-
-      vm.stations.forEach(function(station){
-        var location = new google.maps.LatLng(station.latitude, station.longitude);
-
-        var marker = new google.maps.Marker({
-          map: vm.map,
-          animation: google.maps.Animation.DROP,
-          position: location
-        });
+      var marker = new google.maps.Marker({
+        map: null,
+        animation: google.maps.Animation.DROP,
+        position: location
+      });
 
 
-        var infoWindow = new google.maps.InfoWindow({
-          content: station.name +"("+station.lines+")"
-        });
+      var infoWindow = new google.maps.InfoWindow({
+        content: station.name +"("+station.lines+")"
+      });
 
-        google.maps.event.addListener(marker, 'click', function(){
-          infoWindow.open(vm.map, marker);
-          $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
-        })
-
+      google.maps.event.addListener(marker, 'click', function(){
+        infoWindow.open(vm.map, marker);
+        $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
       })
+      markerList.push(marker);  
+    });
 
-    })
+    google.maps.event.addListener(vm.map, "idle", function (event) {
+      if (vm.map) {
+          //This is the current user-viewable region of the map
+          var bounds = vm.map.getBounds();
+          checkVisibleElements(markerList, bounds);
+          //Loop through all the items that are available to be placed on the map
+      }
+    });
+    
 
-  }, function(error){
-    console.log("Could not get location");
+  })
+
+
+  //this snippet borrowed from http://stackoverflow.com/questions/9142833/show-my-location-on-google-maps-api-v3
+  var myCurrentLocationMarker = new google.maps.Marker({
+    clickable: false,
+    icon: new google.maps.MarkerImage('//maps.gstatic.com/mapfiles/mobile/mobileimgs2.png',
+      new google.maps.Size(22,22),
+      new google.maps.Point(0,18),
+      new google.maps.Point(11,11)),
+    shadow: null,
+    zIndex: 999,
+    map: vm.map
   });
+
+
+  $scope.$on('$ionicView.enter', function() {
+      // code to run each time view is entered (not cached)
+      // need to manage  state http://ionicframework.com/docs/api/directive/ionView/
+    getLocationAndProcessIt();
+  });
+  function getLocationAndProcessIt(){
+    $cordovaGeolocation.getCurrentPosition(staticOptions)
+      .then(processCurrentLocation)
+      .catch(function(error){
+          console.log("Could not get location");
+      });
+  }
+
+
+  function processCurrentLocation(position){
+    nonStaticMapOptions.center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    // Add circle overlay and bind to marker
+    myCurrentLocationMarker.setPosition(nonStaticMapOptions.center);
+    
+    var circle = new google.maps.Circle({
+      map: vm.map,
+      radius: position.coords.accuracy/10,    // this is in meters, it will take up the screen so we have to reduce for now, on mobile this will work
+      fillColor: '#AA0000'
+    });
+    circle.bindTo('center', myCurrentLocationMarker, 'position');
+
+
+    vm.map.setCenter(nonStaticMapOptions.center);
+  }
+  function checkVisibleElements(elementsArray, bounds) {
+      //checks if marker is within viewport and displays the marker accordingly - triggered by google.maps.event "idle" on the map Object
+      elementsArray.forEach(function (item) {
+          //If the item is within the the bounds of the viewport
+          if (bounds.contains(item.position)) {
+              //If the item isn't already being displayed
+              if (item.map != vm.map){
+               item.setMap(vm.map);
+              }
+          } else {
+              item.setMap(null);
+          }
+      });
+  }
 })
 
 .controller('StationCtrl', function($scope, $stateParams, station){
@@ -57,27 +118,6 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 .controller('PendingCtrl', function($scope, $stateParams) {
   $scope.role = $stateParams.role;
   $scope.stationName = $stateParams.stationName;
-})
-
-.controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
-  var vm = this;
-
-  var options = {timeout: 10000, enableHighAccuracy: true};
-
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    vm.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-  }, function(error){
-    console.log("Could not get location");
-  });
 })
 
 .controller('ChatsCtrl', function($scope, Chats) {
