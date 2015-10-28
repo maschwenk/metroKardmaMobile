@@ -49,14 +49,18 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   });
 })
 
-.controller('StationCtrl', function($scope, $stateParams, $state, station, kardmaExchanges){
+.controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, station, kardmaExchanges){
   $scope.station = station;
   $scope.role = $stateParams.role;
+
+
 
   $scope.createExchange = function() {
       kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
           if (res.data.errors) {
-            console.log(res.data.errors)
+            $ionicPopup.alert({
+              template: '<p>You must cancel your other pending exchanges before doing this<p>'
+            })
         } else {
           $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
 
