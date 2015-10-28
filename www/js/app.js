@@ -68,12 +68,18 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     resolve: {
       station: function($stateParams, Station) {
         return Station.get($stateParams.stationId, $stateParams.role)
+      },
+      pendingExchange: function(station, $state, $stateParams) {
+        if (station.pending_exchange_for_user.length > 0) {
+          $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
+        }
       }
+
     }
   })
 
   .state('tab.dash.pending', {
-    params: {role: null, stationName:null, stationId:null},
+    params: {role: null, stationId:null},
     views: {
       'tab-dash-station': {
         templateUrl:'templates/tab-dash-pending.html',
@@ -81,8 +87,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     },
     resolve: {
-      exchange: function($stateParams, kardmaExchanges) {
-        return kardmaExchanges.create($stateParams.stationId, $stateParams.role)
+      station: function($stateParams, Station) {
+        return Station.get($stateParams.stationId, $stateParams.role)
+      },
+      exchange: function(station) {
+        return station.pending_exchange_for_user[0]
       }
     }
   })
