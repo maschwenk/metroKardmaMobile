@@ -40,7 +40,6 @@ angular.module('starter.services', [])
 
   o.get = function(id, role) {
     return $http.get('http://localhost:3000/stations/' + id + '.json', {params: {user_role: role}}).then(function(res){
-        console.log(res.data)
         return res.data
     }, function(err){
       console.log(err)
@@ -56,8 +55,7 @@ angular.module('starter.services', [])
   };
 
   o.create = function(stationId, role) {
-    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role}).then(function(response) {
-    })
+    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role})
   };
 
   o.cancel = function(id) {

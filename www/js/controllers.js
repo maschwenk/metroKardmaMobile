@@ -54,8 +54,13 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   $scope.role = $stateParams.role;
 
   $scope.createExchange = function() {
-      kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function() {
+      kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
+          if (res.data.errors) {
+            console.log(res.data.errors)
+        } else {
           $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
+
+        }
       })
     }
 
