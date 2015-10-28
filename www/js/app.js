@@ -92,7 +92,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       views: {
         'tab-chats': {
           templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl',
+          controller: 'ChatsCtrl as chatsCtl',
           resolve: {resolveAuthentication : resolveAuthentication}
         }
       }
@@ -105,7 +105,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-chats': {
         templateUrl: 'templates/chat-detail.html',
-        controller: 'ChatDetailCtrl',
+        controller: 'ChatDetailCtrl as chatDetailCtl',
         resolve: {resolveAuthentication : resolveAuthentication}
       }
     }
