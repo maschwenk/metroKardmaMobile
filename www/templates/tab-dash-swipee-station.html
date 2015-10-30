@@ -1,9 +1,9 @@
 <div class="list card">
   <div class="item item-divider">{{station.name}}</div>
   <div class="item item-body">
-    <p ng-show="{{station.exchanges_needing_receiver.length == 0}}">Nobody is waiting to provide a swipe at this station</p>
-    <p ng-repeat="exchange in station.exchanges_needing_receiver">
-    {{exchange.giver.email}}
+    <p ng-show="{{station.exchanges_needing_swipee.length == 0}}">Nobody is waiting to provide a swipe at this station</p>
+    <p ng-repeat="exchange in station.exchanges_needing_swipee">
+    {{exchange.swiper.email}}
   </p>
   </div>
     <button class="btn btn-danger" ng-click="createExchange()">Request Swipe at this station</button>
