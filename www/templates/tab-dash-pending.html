@@ -1,6 +1,7 @@
 <div class="list card">
-  <div class="item item-divider">{{stationName}}</div>
+  <div class="item item-divider">{{station.name}}</div>
   <div class="item item-body">
-    You have made yourself a {{role}} at {{stationName}}.  You will be notified when there is a match!
+    You have made yourself a {{role}} at {{station.name}}.  You will be notified when there is a match!
   </div>
+  <button class="btn btn-danger" ng-click="cancelExchange()" >Cancel</button>
 </div>

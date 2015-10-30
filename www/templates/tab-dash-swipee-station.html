@@ -6,7 +6,6 @@
     {{exchange.giver.email}}
   </p>
   </div>
-  <a ui-sref="tab.dash.pending({role: '{{role}}', stationName: '{{station.name}}', stationId: '{{station.id}}'})">
-    <button class="btn btn-danger" >Request Swipe at this station</button>
+    <button class="btn btn-danger" ng-click="createExchange()">Request Swipe at this station</button>
   </a>
 </div>

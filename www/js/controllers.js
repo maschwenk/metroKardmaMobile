@@ -49,14 +49,39 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   });
 })
 
-.controller('StationCtrl', function($scope, $stateParams, station){
+.controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, station, kardmaExchanges){
   $scope.station = station;
   $scope.role = $stateParams.role;
+
+
+
+  $scope.createExchange = function() {
+      kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
+          if (res.data.errors) {
+            $ionicPopup.alert({
+              template: '<p>You must cancel your other pending exchanges before doing this<p>'
+            })
+        } else {
+          $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
+
+        }
+      })
+    }
+
+
 })
 
-.controller('PendingCtrl', function($scope, $stateParams) {
+.controller('PendingCtrl', function($scope, $stateParams, $state, kardmaExchanges, station, exchange) {
   $scope.role = $stateParams.role;
-  $scope.stationName = $stateParams.stationName;
+  $scope.station = station;
+
+  $scope.cancelExchange = function() {
+    kardmaExchanges.cancel(exchange.id).then(function() {
+      $state.go('tab.dash.station', {
+        stationId: station.id, role: $stateParams.role
+      })
+    })
+  }
 })
 
 .controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {

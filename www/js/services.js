@@ -55,10 +55,14 @@ angular.module('starter.services', [])
   };
 
   o.create = function(stationId, role) {
-    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role}).then(function(response) {
-        console.log(response)
-    })
+    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role})
   };
+
+  o.cancel = function(id) {
+    return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(response) {
+
+    })
+  }
 
   return o
 });
