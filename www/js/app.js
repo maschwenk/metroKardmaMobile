@@ -9,7 +9,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'firebase', 'Devise'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $state, $rootScope, Auth) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -23,9 +23,44 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       StatusBar.styleLightContent();
     }
   });
+  $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
+      , fromState, fromParams) {
+
+
+    var isLogin = toState.name === "login";
+    
+    if(isLogin){
+      return true; // no need to redirect
+    }
+
+    if (Auth.isAuthenticated()) {
+      return true;
+    }
+    else{
+      Auth.currentUser()
+        .then(function(){
+          //either of the two below can happen
+          //1. Auth has authenticated a user, and will resolve with that user.
+          //2. Auth has not authenticated a user but the server has a previously authenticated session,
+          //   Auth will attempt to retrieve that session and resolve with its user.
+          //   Then, a devise:new-session event will be broadcast with the current user as the argument.
+          return $q.when();
+        })
+        .catch(function(){
+          //http://stackoverflow.com/questions/27212182/angularjs-ui-router-how-to-redirect-to-login-page
+          console.log('could not authorize nor find old session for this user. need to prompt for login');
+          e.preventDefault(); // stop current execution
+          $state.go('login');
+        })
+
+    }
+
+  });
+
+
 
 })
-.config(function($stateProvider, $urlRouterProvider, $httpProvider,AuthProvider) {
+.config(function($stateProvider, $urlRouterProvider, $httpProvider, AuthProvider) {
 
 
   $httpProvider.defaults.withCredentials = true;
@@ -50,8 +85,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-dash': {
         templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl as dashCtl',
-        resolve: {resolveAuthentication : resolveAuthentication}
+        controller: 'DashCtrl as dashCtl'
       }
     }
   })
@@ -77,7 +111,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-dash-station': {
         templateUrl:'templates/tab-dash-pending.html',
-        controller: 'PendingCtrl'
+        controller: 'PendingCtr'
       }
     },
     resolve: {
@@ -92,8 +126,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       views: {
         'tab-chats': {
           templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl as chatsCtl',
-          resolve: {resolveAuthentication : resolveAuthentication}
+          controller: 'ChatsCtrl as chatsCtl'
         }
       }
     })
@@ -105,12 +138,10 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-chats': {
         templateUrl: 'templates/chat-detail.html',
-        controller: 'ChatDetailCtrl as chatDetailCtl',
-        resolve: {resolveAuthentication : resolveAuthentication}
+        controller: 'ChatDetailCtrl as chatDetailCtl'
       }
     }
   })
-
   .state( 'login', {
       url: '/login',
       controller: 'LoginCtrl as loginCtl',
@@ -119,8 +150,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   .state('swiper-swipee-choice',{
       url: '/swiperSwipeeChoice',
       controller: 'SwiperSwipeeChoiceCtl as swiperSwipeeChoiceCtl',
-      templateUrl: 'templates/swiper-swipee-choice.html',
-      resolve: {resolveAuthentication : resolveAuthentication}
+      templateUrl: 'templates/swiper-swipee-choice.html'
   })
 
   .state('tab.account', {
@@ -128,26 +158,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-account': {
         templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl as acntCtl',
-        resolve: {resolveAuthentication : resolveAuthentication}
+        controller: 'AccountCtrl as acntCtl'
       }
     }
   });
 
-  function resolveAuthentication($q, Auth) {
-      if (Auth.isAuthenticated()) {
-        return $q.when();
-      }
-      else{
-        $timeout(function() {
-          // This code runs after the authentication promise has been rejected.
-          // Go to the log-in page
-          $state.go('login')
-        });
-        return $q.reject();
-      }
 
-  }
 
 
   AuthProvider.loginMethod('POST');
