@@ -9,7 +9,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngCordova', 'firebase', 'Devise'])
 
-.run(function($ionicPlatform, $state, $rootScope, Auth) {
+.run(function($ionicPlatform, $state, $rootScope, $q, Auth) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -28,7 +28,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
 
     var isLogin = toState.name === "login";
-    
+
     if(isLogin){
       return true; // no need to redirect
     }
