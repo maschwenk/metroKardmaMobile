@@ -58,8 +58,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   $scope.createExchange = function() {
       kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
           if (res.data.errors) {
+            console.log(res)
             $ionicPopup.alert({
-              template: '<p>You must cancel your other pending exchanges before doing this<p>'
+              template: res.data.errors[0]
             })
         } else {
           $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
