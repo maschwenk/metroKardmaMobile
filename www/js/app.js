@@ -111,7 +111,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     views: {
       'tab-dash-station': {
         templateUrl:'templates/tab-dash-pending.html',
-        controller: 'PendingCtr'
+        controller: 'PendingCtrl'
       }
     },
     resolve: {
