@@ -58,9 +58,22 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   $scope.createExchange = function() {
       kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
           if (res.data.errors) {
-            console.log(res)
-            $ionicPopup.alert({
-              template: res.data.errors[0]
+            roleInOtherExchange = res.data.errors[0]
+            stationOtherExchange = res.data.errors[1]
+            idOtherExchange = res.data.errors[2]
+            var confirmPopup = $ionicPopup.confirm({
+              template: "You currently have a request as a " +roleInOtherExchange + " at " + stationOtherExchange + ".  Click 'OK' to override your other request with this one."
+            })
+            confirmPopup.then(function(resp) {
+              if(resp) {
+                kardmaExchanges.cancel(idOtherExchange).then(function() {
+                    kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function() {
+                        $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
+                    })
+                })
+              } else {
+                console.log("You are not sure")
+              }
             })
         } else {
           $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
