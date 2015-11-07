@@ -62,6 +62,12 @@ angular.module('starter.services', [])
     return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(response) {
 
     })
+  };
+
+  o.cancelThenCreate= function(idToCancel, newStationId, role)  {
+    return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
+        $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})
+    })
   }
 
   return o

@@ -55,9 +55,10 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 
 
-  $scope.createExchange = function() {
+  $scope.checkForExchangesAndCreate = function() {
       kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
           if (res.data.errors) {
+            //this branch occurs if the current user has another pending exchange open
             roleInOtherExchange = res.data.errors[0]
             stationOtherExchange = res.data.errors[1]
             idOtherExchange = res.data.errors[2]
@@ -66,10 +67,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
             })
             confirmPopup.then(function(resp) {
               if(resp) {
-                kardmaExchanges.cancel(idOtherExchange).then(function() {
-                    kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function() {
-                        $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
-                    })
+                kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $stateParams.role).then(function() {
+                    $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
                 })
               } else {
                 console.log("You are not sure")
