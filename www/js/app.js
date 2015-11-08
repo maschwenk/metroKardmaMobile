@@ -180,7 +180,7 @@ angular.module('starter', ['ionic',
 
   AuthProvider.loginMethod('POST');
   AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
-
+  AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
