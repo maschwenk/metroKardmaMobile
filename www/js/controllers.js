@@ -139,6 +139,10 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
   });
 
+  $scope.$on('$ionicView.leave', function(e) {
+    $interval.cancel(vm.messagesIntervalObj);
+  })
+
   $scope.$on("$destroy",function( event ) {
     $interval.cancel(vm.messagesIntervalObj);
   });
