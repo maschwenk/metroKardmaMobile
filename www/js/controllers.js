@@ -1,103 +1,4 @@
-function buildPrivatePub(doc) {
-  var self = {
-    connecting: false,
-    fayeClient: null,
-    fayeCallbacks: [],
-    subscriptions: {},
-    subscriptionObjects: {},
-    subscriptionCallbacks: {},
-
-    faye: function(callback) {
-      if (self.fayeClient) {
-        callback(self.fayeClient);
-      } else {
-        self.fayeCallbacks.push(callback);
-        if (self.subscriptions.server && !self.connecting) {
-          self.connecting = true;
-          var script = doc.createElement("script");
-          script.type = "text/javascript";
-          script.src = self.subscriptions.server + ".js";
-          script.onload = self.connectToFaye;
-          doc.documentElement.appendChild(script);
-        }
-      }
-    },
-
-    connectToFaye: function() {
-      self.fayeClient = new Faye.Client(self.subscriptions.server);
-      self.fayeClient.addExtension(self.fayeExtension);
-      for (var i=0; i < self.fayeCallbacks.length; i++) {
-        self.fayeCallbacks[i](self.fayeClient);
-      };
-    },
-
-    fayeExtension: {
-      outgoing: function(message, callback) {
-        if (message.channel == "/meta/subscribe") {
-          // Attach the signature and timestamp to subscription messages
-          var subscription = self.subscriptions[message.subscription];
-          if (!message.ext) message.ext = {};
-          message.ext.private_pub_signature = subscription.signature;
-          message.ext.private_pub_timestamp = subscription.timestamp;
-        }
-        callback(message);
-      }
-    },
-
-    sign: function(options) {
-      if (!self.subscriptions.server) {
-        self.subscriptions.server = options.server;
-      }
-      self.subscriptions[options.channel] = options;
-      self.faye(function(faye) {
-        var sub = faye.subscribe(options.channel, self.handleResponse);
-        self.subscriptionObjects[options.channel] = sub;
-        if (options.subscription) {
-          options.subscription(sub);
-        }
-      });
-    },
-
-    handleResponse: function(message) {
-      if (message.eval) {
-        eval(message.eval);
-      }
-      if (callback = self.subscriptionCallbacks[message.channel]) {
-        callback(message.data, message.channel);
-      }
-    },
-
-    subscription: function(channel) {
-      return self.subscriptionObjects[channel];
-    },
-
-    unsubscribeAll: function() {
-      for (var i in self.subscriptionObjects) {
-        if ( self.subscriptionObjects.hasOwnProperty(i) ) {
-          self.unsubscribe(i);
-        }
-      }
-    },
-
-    unsubscribe: function(channel) {
-      var sub = self.subscription(channel);
-      if (sub) {
-        sub.cancel();
-        delete self.subscriptionObjects[channel];
-      }
-    },
-
-    subscribe: function(channel, callback) {
-      self.subscriptionCallbacks[channel] = callback;
-    }
-  };
-  return self;
-}
-
-var PrivatePub = buildPrivatePub(document);
-
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
-
 .controller('DashCtrl', function($scope,$cordovaGeolocation,$state,$stateParams, Stations) {
   var vm = this;
   vm.stations = Stations.queryAll();
@@ -182,27 +83,6 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   }
 })
 
-.controller('MapCtl', function($scope,$cordovaGeolocation, Stations) {
-  var vm = this;
-
-  var options = {timeout: 10000, enableHighAccuracy: true};
-
-  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-
-    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-    var mapOptions = {
-      center: latLng,
-      zoom: 15,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    };
-
-    vm.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-  }, function(error){
-    console.log("Could not get location");
-  });
-})
-
 .controller('ChatsCtrl', function($scope, UserCatalog, Chat, Auth, $state) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
@@ -217,10 +97,10 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     UserCatalog.query().$promise.then(function(users){
       vm.allUsers = users;
     });
+    vm.currentUser = Auth._currentUser.id;
   });
 
   function findOrInitiateChat(userId){
-    vm.currentUser = Auth._currentUser.id;
     var newChat = new Chat({swiper_id: vm.currentUser, swipee_id: userId});
     newChat.$save().then(function(chat){
       console.log('chat created. Id is ' + chat)
@@ -232,39 +112,83 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout) {
+.controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate) {
   var vm = this;
-  vm.chat = null;
-  vm.currentUser = Auth._currentUser;
-  vm.otherUser = null;
-  vm.messages = [];
+  var isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
-  PrivatePub.subscribe("localhost:9292/messages/new", function(data, channel) {
-    console.log(data);
-    //vm.messages.push(data.chat_message);
+  vm.chat = null;
+  vm.otherUser = null;
+  vm.messageToSend = null;
+  vm.messages = [];
+  vm.inputUp = inputUp;
+  vm.inputDown = inputDown;
+  vm.sendMessage = sendMessage;
+
+  $scope.$on('$ionicView.enter', function(e) {
+    vm.currentUser = Auth._currentUser;
+    $ionicScrollDelegate.$getByHandle('messageScroll').scrollBottom(true);
+    Chat.get({chatId: $stateParams.chatId}).$promise.then(function (chat) {
+      vm.chat = chat;
+      var otherUserQuery = vm.currentUser.id === chat.swiper_id ?
+        User.get({userId: chat.swiper_id}) : User.get({userId: chat.swipee_id});
+      otherUserQuery.$promise.then(function (otherUser) {
+        vm.otherUser = otherUser;
+        startRefresh();
+      })
+    })
+
   });
 
+  $scope.$on("$destroy",function( event ) {
+    $interval.cancel(vm.messagesIntervalObj);
+  });
 
-  Chat.get({chatId : $stateParams.chatId}).$promise.then(function(chat){
-    vm.chat = chat;
-    var otherUserQuery = vm.currentUser.id === chat.swiper_id ?
-                          User.get({userId : chat.swiper_id }) :  User.get({userId : chat.swipee_id });
-    otherUserQuery.$promise.then(function(otherUser){
-      vm.otherUser = otherUser;
-      createNewMessage();
-    })
-  })
+  function inputUp() {
+    if (isIOS) $scope.data.keyboardHeight = 216;
+    $timeout(function() {
+      $ionicScrollDelegate.scrollBottom(true);
+    }, 300);
+  }
 
-  function createNewMessage(){
+  function inputDown() {
+    if (isIOS) $scope.data.keyboardHeight = 0;
+    $ionicScrollDelegate.resize();
+  }
+
+  function startRefresh(){
+    vm.messagesIntervalObj = $interval(getAllMessages, 1000);
+  }
+
+  function getAllMessages(){
+    var Messages = $resource('http://localhost:3000/chats/:chatId/messages/',
+      {chatId: vm.chat.id});
+    //very simplistic change detection, other ways of doing this
+    var prevLength = vm.messages.length
+    Messages.query().$promise.then(function(messages){
+      vm.messages = messages;
+      if(prevLength < vm.messages.length){
+        $ionicScrollDelegate.$getByHandle('messageScroll').scrollBottom(true);
+      }
+    });
+    $timeout(function() {
+      $ionicScrollDelegate.$getByHandle('messageScroll').resize();
+    });
+
+
+  }
+
+  function sendMessage(){
     var Message = $resource('http://localhost:3000/chats/:chatId/messages/:messageId',
       {chatId: vm.chat.id, messageId:'@id'});
     var newMessage = new Message({
-      body: 'Hey pal',
+      body: vm.messageToSend,
       chat_id: vm.chat.id,
       user_id: vm.currentUser.id
     });
     newMessage.$save().then(function(message){
+      delete vm.messageToSend;
       console.log('message created. Id is ' + message)
+
     })
 
   }

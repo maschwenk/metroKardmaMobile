@@ -1,8 +1,13 @@
 <ion-view view-title="Chats">
   <ion-content>
     <ion-list>
+
+      <!--
+      you can always use this as a simple debug of the controller's data
+      {{ chatsCtl | json }}
+      -->
       <ion-item class="item-remove-animate item-avatar item-icon-right"
-                ng-repeat="user in chatsCtl.allUsers"
+                ng-repeat="user in chatsCtl.allUsers | filter:{ id: '!' + chatsCtl.currentUser }"
                 type="item-text-wrap"
                 ng-click="chatsCtl.findOrInitiateChat(user.id)">
         <h2>{{user.first_name}}</h2>
