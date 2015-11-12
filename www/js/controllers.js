@@ -20,26 +20,26 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
     google.maps.event.addListenerOnce(vm.map, 'idle', function() {
 
-//       vm.stations.slice(10).forEach(function(station){
-//         var location = new google.maps.LatLng(station.latitude, station.longitude);
+      vm.stations.slice(10).forEach(function(station){
+        var location = new google.maps.LatLng(station.latitude, station.longitude);
 
-//         var marker = new google.maps.Marker({
-//           map: vm.map,
-//           animation: google.maps.Animation.DROP,
-//           position: location
-//         });
+        var marker = new google.maps.Marker({
+          map: vm.map,
+          animation: google.maps.Animation.DROP,
+          position: location
+        });
 
 
-//         var infoWindow = new google.maps.InfoWindow({
-//           content: station.name +"("+station.lines+")"
-//         });
+        var infoWindow = new google.maps.InfoWindow({
+          content: station.name +"("+station.lines+")"
+        });
 
-//         google.maps.event.addListener(marker, 'click', function(){
-//           infoWindow.open(vm.map, marker);
-//           $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
-//         })
+        google.maps.event.addListener(marker, 'click', function(){
+          infoWindow.open(vm.map, marker);
+          $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
+        })
 
-//       })
+      })
 
     })
 
@@ -48,11 +48,31 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   });
 })
 
-.controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, station, kardmaExchanges){
+.controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, station, kardmaExchanges, Chat, Auth){
   $scope.station = station;
   $scope.role = $stateParams.role;
 
+  function otherExchangePopup(role, station) {
+     var popUp = $ionicPopup.confirm({
+              template: "You currently have a request as a " +role + " at " + station + ".  Click 'OK' to override your other request with this one."
+            })
+     return popUp
+  }
 
+
+  function findOrInitiateChat(userId){
+    if ($stateParams.role == "swiper") {
+     var newChat = new Chat({swiper_id: Auth._currentUser.id, swipee_id: userId});
+   }
+   else if ($stateParams.role == "swipee") {
+    var newChat = new Chat({swiper_id: userId, swipee_id: Auth._currentUser.id});
+  }
+
+  newChat.$save().then(function(chat){
+    console.log('chat created. Id is ' + chat.chat_id)
+    $state.go('tab.chat-detail', {'chatId': chat.chat_id});
+  })
+};
 
   $scope.checkForExchangesAndCreate = function() {
       kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
@@ -61,10 +81,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
             roleInOtherExchange = res.data.errors[0]
             stationOtherExchange = res.data.errors[1]
             idOtherExchange = res.data.errors[2]
-            var confirmPopup = $ionicPopup.confirm({
-              template: "You currently have a request as a " +roleInOtherExchange + " at " + stationOtherExchange + ".  Click 'OK' to override your other request with this one."
-            })
-            confirmPopup.then(function(resp) {
+
+            otherExchangePopup(roleInOtherExchange, stationOtherExchange).then(function(resp) {
               if(resp) {
                 kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $stateParams.role).then(function() {
                     $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
@@ -78,7 +96,31 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
         }
       })
+    };
+
+    $scope.updateExchangeAndStartChat = function(exchangeId, userId) {
+      kardmaExchanges.update(exchangeId, $stateParams.role).then(function(res) {
+          if (res.data.errors) {
+            roleInOtherExchange = res.data.errors[0]
+            stationOtherExchange = res.data.errors[1]
+            idOtherExchange = res.data.errors[2]
+
+            otherExchangePopup(roleInOtherExchange, stationOtherExchange).then(function(resp) {
+              if (resp) {
+                kardmaExchanges.cancelThenUpdate(idOtherExchange, exchangeId, $stateParams.role).then(function() {
+                  findOrInitiateChat(userId)
+                })
+              } else {
+                console.log("You clicked Cancel")
+              }
+            })
+          } else {
+            findOrInitiateChat(userId)
+          }
+
+      })
     }
+
 
 
 })
@@ -116,7 +158,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   function findOrInitiateChat(userId){
     var newChat = new Chat({swiper_id: vm.currentUser, swipee_id: userId});
     newChat.$save().then(function(chat){
-      console.log('chat created. Id is ' + chat)
+      console.log('chat created. Id is ' + chat.chat_id)
       $state.go('tab.chat-detail', {'chatId': chat.chat_id});
     })
 
