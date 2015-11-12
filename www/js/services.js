@@ -56,7 +56,7 @@ angular.module('starter.services', [])
   var o = {};
   o.show = show;
   return o;
-  
+
   function show(title,body){
     return $ionicPopup.alert({
       title: title,
@@ -74,14 +74,22 @@ angular.module('starter.services', [])
   };
 
   o.cancel = function(id) {
-    return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(response) {
-
-    })
+    return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json')
   };
 
   o.cancelThenCreate= function(idToCancel, newStationId, role)  {
     return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
-        $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})
+        return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})
+    })
+  };
+
+  o.update = function(id, role) {
+    return $http.put('http://localhost:3000/kardma_exchanges/' + id + '.json', {'role': role})
+  };
+
+  o.cancelThenUpdate = function(idToCancel, newExchangeId, role) {
+    return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
+        return $http.put('http://localhost:3000/kardma_exchanges/' + newExchangeId + '.json', {'role': role})
     })
   }
 
