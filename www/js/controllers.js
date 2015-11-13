@@ -22,10 +22,28 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
       vm.stations.slice(10).forEach(function(station){
         var location = new google.maps.LatLng(station.latitude, station.longitude);
+        console.log(station)
+        // if (station.pending_exchange_for_user.length > 0) {
+        //   var pinColor = "FFFF00"
+        // } else {
+        //   var pinColor = "FE7569"
+        // };
+        var pinColor = "FFFF00"
 
+        var trainImg = 'http://google-maps-icons.googlecode.com/files/train.png'
+        var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(10, 34));
+        var pinShadow = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_shadow",
+            new google.maps.Size(40, 37),
+            new google.maps.Point(0, 0),
+            new google.maps.Point(12, 35));
         var marker = new google.maps.Marker({
           map: vm.map,
           animation: google.maps.Animation.DROP,
+          icon: pinImage,
+          shadow: pinShadow,
           position: location
         });
 
