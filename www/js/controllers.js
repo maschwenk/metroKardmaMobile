@@ -143,7 +143,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     Chat.get({chatId: $stateParams.chatId}).$promise.then(function (chat) {
       vm.chat = chat;
       var otherUserQuery = vm.currentUser.id === chat.swiper_id ?
-        User.get({userId: chat.swiper_id}) : User.get({userId: chat.swipee_id});
+        User.get({userId: chat.swipee_id}) : User.get({userId: chat.swiper_id});
       otherUserQuery.$promise.then(function (otherUser) {
         vm.otherUser = otherUser;
         startRefresh();
