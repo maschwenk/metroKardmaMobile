@@ -7,7 +7,7 @@
       {{ chatsCtl | json }}
       -->
       <ion-item class="item-remove-animate item-avatar item-icon-right"
-                ng-repeat="user in chatsCtl.allUsers | filter:{ id: '!' + chatsCtl.currentUser }"
+                ng-repeat="user in chatsCtl.allUsers | filter:{ id: '!' + chatsCtl.currentUser } track by user.id"
                 type="item-text-wrap"
                 ng-click="chatsCtl.findOrInitiateChat(user.id)">
         <h2>{{user.first_name}}</h2>
