@@ -4,8 +4,10 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="Chat between you and {{ chatDetailCtl.otherUser.first_name }}">
-  <ion-content class="padding" delegate-handle="messageScroll">
+<ion-view
+    class="messageDetailsView"
+    view-title="Chat between you and {{ chatDetailCtl.otherUser.first_name }} as a {{ chatDetailCtl.SwiperSwipeeRole.currentRole }} ">
+  <ion-content class="padding" has-header="true" delegate-handle="messageScroll">
     <!--{{ chatDetailCtl | json }}-->
     <ion-item collection-repeat="message in chatDetailCtl.messages track by message.id"
               item-height="55px"
@@ -19,6 +21,13 @@
 
   </ion-content>
   <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+    <!-- I usually stay away from putting function calls in angular expressions, but did not notice big issue so lets see.-->
+    <button
+      class="button button-positive sendKardmaBtn"
+      ng-show="chatDetailCtl.SwiperSwipeeRole.isSwiper()"
+      ng-click="chatDetailCtl.sendKarmda()">
+      Send Kardma
+    </button>
     <label class="item-input-wrapper">
       <input type="text" placeholder="Type your message"
              on-return="chatDetailCtl.sendMessage()"
@@ -26,8 +35,11 @@
              on-focus="chatDetailCtl.inputUp()"
              on-blur="chatDetailCtl.inputDown()" />
     </label>
+
+
     <button class="button button-positive sendMessageBtn" ng-click="chatDetailCtl.sendMessage()">
       Send
     </button>
+
   </ion-footer-bar>
 </ion-view>

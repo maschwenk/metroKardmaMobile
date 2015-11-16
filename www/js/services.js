@@ -1,3 +1,4 @@
+(function(){
 angular.module('starter.services', [])
 
 .factory('Chat', function($resource) {
@@ -6,7 +7,7 @@ angular.module('starter.services', [])
   // Some fake testing date
   return $resource('http://localhost:3000/chats/:chatId');
 })
-.factory('Message', function($resouce) {
+.factory('Message', function($resource) {
   return $resource('http://localhost:3000/chats/:chatId/messages/:messageId');
 })
 .factory('UserCatalog', function($resource) {
@@ -41,6 +42,7 @@ angular.module('starter.services', [])
     //default to swipee now
     currentRole: 'swipee'
   };
+
   o.getCurrentRole = getCurrentRole;
   o.setCurrentRole = setCurrentRole;
   o.isSwiper = isSwiper;
@@ -65,7 +67,9 @@ angular.module('starter.services', [])
       o.currentRole = role;
       console.info('Changed role to ' + role);
     }
-    throw new Exception("Role is incorrectly specified");
+    else{
+      throw new Exception("Role is incorrectly specified");
+    }
   }
 
   function toggleRole(){
@@ -85,13 +89,13 @@ angular.module('starter.services', [])
 
   o.get = function(id, role) {
     return $http.get('http://localhost:3000/stations/' + id + '.json', {params: {user_role: role}}).then(function(res){
-        return res.data
+        return res.data;
     }, function(err){
-      console.log(err)
-    })
-  }
+      console.log(err);
+    });
+  };
 
-  return o
+  return o;
 })
 .factory('simpleAlertPopup', function($ionicPopup){
   var o = {};
@@ -105,26 +109,45 @@ angular.module('starter.services', [])
     });
   }
 })
-.factory('kardmaExchanges', function($http) {
+.factory('kardmaExchanges', function($http, $q,
+                                     SwiperSwipeeRole ) {
   var o = {
     kardmaExchanges: []
   };
 
   o.create = function(stationId, role) {
-    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role})
+    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role});
+  };
+
+  o.findByRole = function(){
+    return $http.get('http://localhost:3000/kardma_exchanges/search_by_swiper_swipee/' + SwiperSwipeeRole.getCurrentRole() + '.json');
+  };
+
+  o.completeExchange = function(idToComplete) {
+    return $http.patch('http://localhost:3000/kardma_exchanges/' + idToComplete + '.json');
+  };
+
+  o.findAndCompleteExchange = function() {
+    return o.findByRole()
+    .then(function(resp){
+      var karmdaExchange = resp.data;
+      if(karmdaExchange){
+        return o.completeExchange(karmdaExchange.id);
+      }
+      return $q.reject();
+    });
   };
 
   o.cancel = function(id) {
-    return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(response) {
-
-    })
+    return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json');
   };
 
   o.cancelThenCreate= function(idToCancel, newStationId, role)  {
     return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
-        $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})
-    })
-  }
+        $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role});
+    });
+  };
 
-  return o
+  return o;
 });
+})();

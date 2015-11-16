@@ -8,7 +8,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic',
-                            'starter.controllers', 'starter.services', 'starter.directives', //our modules
+                            'starter.controllers', 'starter.services', 'starter.directives', 'starter.filters', //our modules
                             'ngCordova', 'firebase', 'Devise' //third parties
                           ])
 
@@ -96,19 +96,19 @@ angular.module('starter', ['ionic',
     params: {stationId:null, role:null},
     views: {
       'tab-dash-station': {
-        templateUrl: function($stateParams) {
-          return 'templates/tab-dash-' + $stateParams.role + '-station.html'
+        templateUrl: function($stateParams, SwiperSwipeeRole) {
+          return 'templates/tab-dash-' + SwiperSwipeeRole.getCurrentRole() + '-station.html'
         },
         controller: 'StationCtrl'
       }
     },
     resolve: {
       station: function($stateParams, Station) {
-        return Station.get($stateParams.stationId, $stateParams.role)
+        return Station.get($stateParams.stationId, SwiperSwipeeRole.getCurrentRole())
       },
       pendingExchange: function(station, $state, $stateParams) {
         if (station.pending_exchange_for_user.length > 0) {
-          $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
+          $state.go('tab.dash.pending', {stationId: station.id})
         }
       }
 
@@ -125,7 +125,7 @@ angular.module('starter', ['ionic',
     },
     resolve: {
       station: function($stateParams, Station) {
-        return Station.get($stateParams.stationId, $stateParams.role)
+        return Station.get($stateParams.stationId, SwiperSwipeeRole.getCurrentRole())
       },
       exchange: function(station) {
         return station.pending_exchange_for_user[0]
@@ -182,6 +182,6 @@ angular.module('starter', ['ionic',
   AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
   AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/login');
+  $urlRouterProvider.otherwise('/swiperSwipeeChoice');
 
 });
