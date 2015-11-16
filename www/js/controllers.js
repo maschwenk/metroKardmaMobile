@@ -1,7 +1,7 @@
 angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 .controller('DashCtrl', function($scope,$cordovaGeolocation,$state,$stateParams, Stations) {
   var vm = this;
-  vm.stations = Stations.queryAll();
+  vm.stations = Stations($stateParams.role).queryAll();
 
   var options = {timeout: 10000, enableHighAccuracy: true};
 
