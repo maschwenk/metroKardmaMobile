@@ -22,13 +22,25 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
       vm.stations.slice(10).forEach(function(station){
         var location = new google.maps.LatLng(station.latitude, station.longitude);
-        console.log(station)
         // if (station.pending_exchange_for_user.length > 0) {
         //   var pinColor = "FFFF00"
         // } else {
         //   var pinColor = "FE7569"
         // };
-        var pinColor = "FFFF00"
+
+        if ($stateParams.role == "swiper") {
+          if (station.exchanges_needing_swiper.length > 0) {
+              var pinColor = "FFFF00"
+          } else  {
+              var pinColor = "FE7569"
+          }
+        } else if ($stateParams.role == "swipee") {
+            if (station.exchanges_needing_swipee.length > 0) {
+              var pinColor = "FFFF00"
+          } else  {
+              var pinColor = "FE7569"
+          }
+        }
 
         var trainImg = 'http://google-maps-icons.googlecode.com/files/train.png'
         var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
