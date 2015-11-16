@@ -28,18 +28,10 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         //   var pinColor = "FE7569"
         // };
 
-        if ($stateParams.role == "swiper") {
-          if (station.exchanges_needing_swiper.length > 0) {
-              var pinColor = "FFFF00"
-          } else  {
-              var pinColor = "FE7569"
-          }
-        } else if ($stateParams.role == "swipee") {
-            if (station.exchanges_needing_swipee.length > 0) {
-              var pinColor = "FFFF00"
-          } else  {
-              var pinColor = "FE7569"
-          }
+        if (($stateParams.role == "swiper" && station.exchanges_needing_swiper.length > 0) || ($stateParams.role == "swipee" && station.exchanges_needing_swipee.length > 0)) {
+            var pinColor = "FFFF00"
+        } else {
+            var pinColor = "FE7569"
         }
 
         var trainImg = 'http://google-maps-icons.googlecode.com/files/train.png'
