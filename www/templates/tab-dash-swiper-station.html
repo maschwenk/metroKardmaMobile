@@ -5,7 +5,7 @@
     <ion-item class="item-remove-animate item-avatar item-icon-right"
       ng-repeat="exchange in station.exchanges_needing_swiper"
       ng-click="updateExchangeAndStartChat({{exchange.id}}, {{exchange.swipee.id}})">
-    <p>{{exchange.swipee.email}} (Average Rating: {{exchange.swipee.average_rating}})</p>
+    <p>{{exchange.swipee.first_name}} {{exchange.swipee.last_name}} (Average Rating: {{exchange.swipee.average_rating}})</p>
   </ion-item>
   </div>
     <button class="btn btn-danger" ng-click="checkForExchangesAndCreate()" >Provide a Swipe at this Station</button>
