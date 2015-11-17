@@ -18,6 +18,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
     vm.map =  new google.maps.Map(document.getElementById("map"), mapOptions);
 
+    vm.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+  document.getElementById('legend'));
+
     google.maps.event.addListenerOnce(vm.map, 'idle', function() {
 
       vm.stations.slice(10).forEach(function(station){
