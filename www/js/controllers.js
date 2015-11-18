@@ -37,7 +37,6 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
             var pinColor = "FE7569"
         }
 
-        var trainImg = 'http://google-maps-icons.googlecode.com/files/train.png'
         var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
             new google.maps.Size(21, 34),
             new google.maps.Point(0,0),
