@@ -1,4 +1,10 @@
 <ion-view view-title="Chats">
+  <ion-nav-buttons side="right">
+    <button class="button"
+            ng-click="chatsCtl.SwiperSwipeeRole.toggleRole()">
+      {{ chatsCtl.SwiperSwipeeRole.currentRole | titleCase }}   <i class="icon ion-card"></i>
+    </button>
+  </ion-nav-buttons>
   <ion-content>
     <ion-list>
 
