@@ -107,7 +107,6 @@ angular.module('starter', ['ionic',
       },
       pendingExchange: function(station, $state, $stateParams) {
         if (station.pending_exchange_for_user.length > 0) {
-          debugger;
           $state.go('tab.dash.pending', {stationId: station.id, role: $stateParams.role})
         }
       }
