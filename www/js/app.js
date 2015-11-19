@@ -103,7 +103,7 @@ angular.module('starter', ['ionic',
       }
     },
     resolve: {
-      station: function($stateParams, Station) {
+      station: function($stateParams, Station, SwiperSwipeeRole) {
         return Station.get($stateParams.stationId, SwiperSwipeeRole.getCurrentRole())
       },
       pendingExchange: function(station, $state, $stateParams) {
