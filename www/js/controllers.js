@@ -122,7 +122,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     }
   })
 
-  .controller('StationCtrl', function($scope, $stateParams, station, kardmaExchanges, SwiperSwipeeRole, $state){
+  .controller('StationCtrl', function($scope, $stateParams, station, kardmaExchanges, SwiperSwipeeRole, $state, $ionicPopup){
     $scope.station = station;
     console.log(SwiperSwipeeRole.getCurrentRole())
 
@@ -134,9 +134,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
       kardmaExchanges.create($stateParams.stationId, $scope.role).then(function(res) {
           if (res.data.errors) {
             //this branch occurs if the current user has another pending exchange open
-            roleInOtherExchange = res.data.errors[0]
-            stationOtherExchange = res.data.errors[1]
-            idOtherExchange = res.data.errors[2]
+            var roleInOtherExchange = res.data.errors[0]
+            var stationOtherExchange = res.data.errors[1]
+            var idOtherExchange = res.data.errors[2]
             var confirmPopup = $ionicPopup.confirm({
               template: "You currently have a request as a " +roleInOtherExchange + " at " + stationOtherExchange + ".  Click 'OK' to override your other request with this one."
             })
