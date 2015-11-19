@@ -76,7 +76,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
           google.maps.event.addListener(marker, 'click', function(){
             infoWindow.open(vm.map, marker);
-            $state.go('tab.dash.station', {stationId: station.id});
+            $state.go('tab.dash.station', {stationId: station.id, role: SwiperSwipeeRole.getCurrentRole()});
           })
           markerList.push(marker);
         });
@@ -122,8 +122,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     }
   })
 
-  .controller('StationCtrl', function($scope, $stateParams, station, kardmaExchanges, SwiperSwipeeRole){
+  .controller('StationCtrl', function($scope, $stateParams, station, kardmaExchanges, SwiperSwipeeRole, $state){
     $scope.station = station;
+    console.log(SwiperSwipeeRole.getCurrentRole())
 
     $scope.$on('$ionicView.enter', function(e) {
       $scope.role = SwiperSwipeeRole.getCurrentRole();

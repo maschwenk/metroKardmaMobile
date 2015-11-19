@@ -65,7 +65,6 @@ angular.module('starter', ['ionic',
 })
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, AuthProvider) {
 
-
   $httpProvider.defaults.withCredentials = true;
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
@@ -93,11 +92,11 @@ angular.module('starter', ['ionic',
     }
   })
   .state('tab.dash.station', {
-    params: {stationId:null, role:null},
+    params: {stationId:null, role: null},
     views: {
       'tab-dash-station': {
-        templateUrl: function($stateParams, SwiperSwipeeRole) {
-          return 'templates/tab-dash-' + SwiperSwipeeRole.getCurrentRole() + '-station.html'
+        templateUrl: function($stateParams) {
+          return 'templates/tab-dash-'+ $stateParams.role + '-station.html'
         },
         controller: 'StationCtrl'
       }
@@ -108,7 +107,8 @@ angular.module('starter', ['ionic',
       },
       pendingExchange: function(station, $state, $stateParams) {
         if (station.pending_exchange_for_user.length > 0) {
-          $state.go('tab.dash.pending', {stationId: station.id})
+          debugger;
+          $state.go('tab.dash.pending', {stationId: station.id, role: $stateParams.role})
         }
       }
 
@@ -124,7 +124,7 @@ angular.module('starter', ['ionic',
       }
     },
     resolve: {
-      station: function($stateParams, Station) {
+      station: function($stateParams, Station, SwiperSwipeeRole) {
         return Station.get($stateParams.stationId, SwiperSwipeeRole.getCurrentRole())
       },
       exchange: function(station) {
