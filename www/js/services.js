@@ -123,6 +123,16 @@ angular.module('starter.services', [])
     return $http.get('http://localhost:3000/kardma_exchanges/search_by_swiper_swipee/' + SwiperSwipeeRole.getCurrentRole() + '.json');
   };
 
+  o.updateMatch = function(id, role) {
+    return $http.put('http://localhost:3000/kardma_exchanges/update_with_match/' + id + '.json', {'role': role})
+  };
+
+  o.cancelThenUpdateMatch = function(idToCancel, newExchangeId, role) {
+    return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
+        return $http.put('http://localhost:3000/kardma_exchanges/update_with_match/' + newExchangeId + '.json', {'role': role})
+    })
+  };
+
   o.completeExchange = function(idToComplete) {
     return $http.patch('http://localhost:3000/kardma_exchanges/' + idToComplete + '.json');
   };
