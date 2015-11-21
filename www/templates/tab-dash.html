@@ -2,7 +2,19 @@
   <ion-content class="padding">
 
       <div id="map" data-tap-disabled="true"></div>
+      <div id="legend">
+        <img src = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FFFF00">People waiting
+        <br>
+        <img src = "http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|FE7569">No one waiting
+      </div>
 
       <ion-nav-view name="tab-dash-station"><ion-nav-view>
   </ion-content>
+  <!-- This style can be changed/moved elsewhere -->
+  <style>
+      #legend {
+      background: white;
+      padding: 10px;
+      }
+  </style>
 </ion-view>
