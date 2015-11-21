@@ -27,13 +27,16 @@ angular.module('starter.services', [])
   // Might use a resource here that returns a JSON array
 
   // Some fake testing data
-  return $resource('http://localhost:3000/stations/', {}, {
+  return function(role) {
+    return $resource('http://localhost:3000/stations/', {}, {
         queryAll: {
             method: 'GET',
             cache: false,
-            isArray: true
+            isArray: true,
+            params: {user_role: role }
         }
     });
+  };
   //return $http.get()
   //return $resource("http://localhost:3000/stations/");
 })

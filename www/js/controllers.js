@@ -58,7 +58,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     }
     function placeStationMarkers(){
 
-      Stations.queryAll(function(result){
+      Stations(SwiperSwipeeRole.getCurrentRole()).queryAll(function(result){
         vm.stations = result;
         markerList = [];
         vm.stations.forEach(function(station){
