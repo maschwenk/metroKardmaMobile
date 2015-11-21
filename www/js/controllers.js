@@ -63,7 +63,11 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         markerList = [];
         vm.stations.forEach(function(station){
           var location = new google.maps.LatLng(station.latitude, station.longitude);
-          var pinColor = "FE7569"
+          if ((SwiperSwipeeRole.isSwiper() && station.exchanges_needing_swiper.length > 0) || (SwiperSwipeeRole.isSwipee() && station.exchanges_needing_swipee.length > 0)) {
+            var pinColor = "FFFF00"
+        } else {
+            var pinColor = "FE7569"
+        }
 
           var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
             new google.maps.Size(21, 34),
