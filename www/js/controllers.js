@@ -43,6 +43,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
       // need to manage  state http://ionicframework.com/docs/api/directive/ionView/
       if(vm.map === null){
           vm.map =  new google.maps.Map(document.getElementById("map"), nonStaticMapOptions);
+          vm.map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+  document.getElementById('legend'));
       }
       getLocationAndProcessIt();
       placeStationMarkers();
@@ -61,12 +63,18 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         markerList = [];
         vm.stations.forEach(function(station){
           var location = new google.maps.LatLng(station.latitude, station.longitude);
+          var pinColor = "FE7569"
 
+          var pinImage = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|" + pinColor,
+            new google.maps.Size(21, 34),
+            new google.maps.Point(0,0),
+            new google.maps.Point(10, 34));
 
           var marker = new google.maps.Marker({
             map: vm.map,
             animation: google.maps.Animation.DROP,
-            position: location
+            position: location,
+            icon: pinImage
           });
 
 
