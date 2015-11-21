@@ -124,11 +124,28 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
   .controller('StationCtrl', function($scope, $stateParams, station, kardmaExchanges, SwiperSwipeeRole, $state, $ionicPopup){
     $scope.station = station;
-    console.log(SwiperSwipeeRole.getCurrentRole())
 
     $scope.$on('$ionicView.enter', function(e) {
       $scope.role = SwiperSwipeeRole.getCurrentRole();
     });
+
+    function otherExchangePopup(role, station) {
+     var popUp = $ionicPopup.confirm({
+      template: "You currently have a request as a " +role + " at " + station + ".  Click 'OK' to override your other request with this one."
+    })
+     return popUp
+   }
+
+    function findOrInitiateChat(otherUserId){
+      var swiperSwipeeObj = SwiperSwipeeRole.isSwiper() ?
+        { swiper_id : vm.currentUser ,  swipee_id: otherUserId } :
+        { swiper_id : otherUserId ,  swipee_id: vm.currentUser }
+      var newChat = new Chat(swiperSwipeeObj);
+      newChat.$save().then(function(chat){
+        $state.go('tab.chat-detail', {'chatId': chat.chat_id});
+      })
+
+    }
 
     $scope.checkForExchangesAndCreate = function() {
       kardmaExchanges.create($stateParams.stationId, $scope.role).then(function(res) {
@@ -137,10 +154,9 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
             var roleInOtherExchange = res.data.errors[0]
             var stationOtherExchange = res.data.errors[1]
             var idOtherExchange = res.data.errors[2]
-            var confirmPopup = $ionicPopup.confirm({
-              template: "You currently have a request as a " +roleInOtherExchange + " at " + stationOtherExchange + ".  Click 'OK' to override your other request with this one."
-            })
-            confirmPopup.then(function(resp) {
+
+
+            otherExchangePopup(roleInOtherExchange, stationOtherExchange).then(function(resp) {
               if(resp) {
                 kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $scope.role).then(function() {
                     $state.go('tab.dash.pending', {stationId: station.id, role:$scope.role})
