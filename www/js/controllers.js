@@ -20,26 +20,26 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
     google.maps.event.addListenerOnce(vm.map, 'idle', function() {
 
-//       vm.stations.slice(10).forEach(function(station){
-//         var location = new google.maps.LatLng(station.latitude, station.longitude);
+      vm.stations.slice(10).forEach(function(station){
+        var location = new google.maps.LatLng(station.latitude, station.longitude);
 
-//         var marker = new google.maps.Marker({
-//           map: vm.map,
-//           animation: google.maps.Animation.DROP,
-//           position: location
-//         });
+        var marker = new google.maps.Marker({
+          map: vm.map,
+          animation: google.maps.Animation.DROP,
+          position: location
+        });
 
 
-//         var infoWindow = new google.maps.InfoWindow({
-//           content: station.name +"("+station.lines+")"
-//         });
+        var infoWindow = new google.maps.InfoWindow({
+          content: station.name +"("+station.lines+")"
+        });
 
-//         google.maps.event.addListener(marker, 'click', function(){
-//           infoWindow.open(vm.map, marker);
-//           $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
-//         })
+        google.maps.event.addListener(marker, 'click', function(){
+          infoWindow.open(vm.map, marker);
+          $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
+        })
 
-//       })
+      })
 
     })
 
