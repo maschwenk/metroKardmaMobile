@@ -48,11 +48,21 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   });
 })
 
-.controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, station, kardmaExchanges){
+.controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, $ionicModal, station, kardmaExchanges){
   $scope.station = station;
   $scope.role = $stateParams.role;
 
+  $ionicModal.fromTemplateUrl('templates/tab-dash-' + $stateParams.role + '-station.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+      }).then(function(modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+      });
 
+  function hideModal() {
+    $scope.modal.hide()
+  }
 
   $scope.checkForExchangesAndCreate = function() {
       kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
@@ -67,6 +77,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
             confirmPopup.then(function(resp) {
               if(resp) {
                 kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $stateParams.role).then(function() {
+                    hideModal();
                     $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
                 })
               } else {
@@ -74,6 +85,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
               }
             })
         } else {
+          hideModal();
           $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
 
         }
@@ -83,9 +95,17 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
 })
 
-.controller('PendingCtrl', function($scope, $stateParams, $state, kardmaExchanges, station, exchange) {
+.controller('PendingCtrl', function($scope, $stateParams, $state, $ionicModal,kardmaExchanges, station, exchange) {
   $scope.role = $stateParams.role;
   $scope.station = station;
+
+  $ionicModal.fromTemplateUrl('templates/tab-dash-pending.html', {
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal = modal;
+        $scope.modal.show();
+    });
 
   $scope.cancelExchange = function() {
     kardmaExchanges.cancel(exchange.id).then(function() {
