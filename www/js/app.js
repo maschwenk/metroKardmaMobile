@@ -94,14 +94,16 @@ angular.module('starter', ['ionic',
   })
   .state('tab.dash.station', {
     params: {stationId:null, role:null},
-    views: {
-      'tab-dash-station': {
-        templateUrl: function($stateParams) {
-          return 'templates/tab-dash-' + $stateParams.role + '-station.html'
-        },
-        controller: 'StationCtrl'
-      }
-    },
+    // views: {
+    //   'tab-dash-station': {
+    //     templateUrl: function($stateParams) {
+    //       return 'templates/tab-dash-' + $stateParams.role + '-station.html'
+    //     },
+    //     controller: 'StationCtrl'
+    //   }
+    // },
+    cache: false,
+    controller: 'StationCtrl',
     resolve: {
       station: function($stateParams, Station) {
         return Station.get($stateParams.stationId, $stateParams.role)
@@ -112,6 +114,26 @@ angular.module('starter', ['ionic',
         }
       }
 
+    }
+  })
+
+  .state('tab.dash.pending', {
+    params: {role: null, stationId:null},
+    // views: {
+    //   'tab-dash-station': {
+    //     templateUrl:'templates/tab-dash-pending.html',
+    //     controller: 'PendingCtrl'
+    //   }
+    // },
+    cache: false,
+    controller: 'PendingCtrl',
+    resolve: {
+      station: function($stateParams, Station) {
+        return Station.get($stateParams.stationId, $stateParams.role)
+      },
+      exchange: function(station) {
+        return station.pending_exchange_for_user[0]
+      }
     }
   })
 
