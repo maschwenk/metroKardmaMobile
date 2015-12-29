@@ -263,7 +263,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 })
 
 
-.controller('AccountCtrl', function($scope,$log,Auth,$state, simpleAlertPopup) {
+.controller('AccountCtrl', function($scope,$log,Auth,$state, simpleAlertPopup, SwiperSwipeeRole) {
   var vm = this;
   vm.currentUser = Auth._currentUser;
   vm.settings = {
@@ -273,6 +273,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
 
   $scope.$on('$ionicView.enter', function(e) {
     vm.currentUser = Auth._currentUser;
+    console.log(SwiperSwipeeRole.currentRole)
   })
 
   function logout(){
