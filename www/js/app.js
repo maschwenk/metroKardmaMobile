@@ -137,24 +137,6 @@ angular.module('starter', ['ionic',
     }
   })
 
-  .state('tab.dash.pending', {
-    params: {role: null, stationId:null},
-    views: {
-      'tab-dash-station': {
-        templateUrl:'templates/tab-dash-pending.html',
-        controller: 'PendingCtrl'
-      }
-    },
-    resolve: {
-      station: function($stateParams, Station) {
-        return Station.get($stateParams.stationId, $stateParams.role)
-      },
-      exchange: function(station) {
-        return station.pending_exchange_for_user[0]
-      }
-    }
-  })
-
   .state('tab.chats', {
       url: '/chats',
       views: {

@@ -35,7 +35,6 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         });
 
         google.maps.event.addListener(marker, 'click', function(){
-          infoWindow.open(vm.map, marker);
           $state.go('tab.dash.station', {stationId: station.id, role:$stateParams.role})
         })
 
@@ -163,7 +162,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     Chat.get({chatId: $stateParams.chatId}).$promise.then(function (chat) {
       vm.chat = chat;
       var otherUserQuery = vm.currentUser.id === chat.swiper_id ?
-        User.get({userId: chat.swiper_id}) : User.get({userId: chat.swipee_id});
+        User.get({userId: chat.swipee_id}) : User.get({userId: chat.swiper_id});
       otherUserQuery.$promise.then(function (otherUser) {
         vm.otherUser = otherUser;
         startRefresh();
