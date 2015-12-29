@@ -1,7 +1,13 @@
-<div class="list card">
-  <div class="item item-divider">{{station.name}}</div>
-  <div class="item item-body">
-    You have made yourself a {{role}} at {{station.name}}.  You will be notified when there is a match!
-  </div>
-  <button class="btn btn-danger" ng-click="cancelExchange()" >Cancel</button>
-</div>
+<ion-modal-view style="width: 100%; height: 20%; top: 25%; bottom: 55%;">
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">{{station.name}} ({{station.lines}})</h1>
+  </ion-header-bar>
+
+  <ion-content class="padding">
+    <div class="item item-body">
+      You have made yourself a {{role}} at {{station.name}}.  You will be notified when there is a match!
+    </div>
+    <button class="btn btn-danger" ng-click="cancelExchange()" >Cancel</button>
+  </ion-content>
+
+</ion-modal-view>
