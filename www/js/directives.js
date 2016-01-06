@@ -3,7 +3,20 @@
  */
 
 angular.module('starter.directives', [])
-  .directive('input', chatInput);
+  .directive('input', chatInput)
+  .directive('personWaiting', function() {
+    return {
+      scope: {
+        waiter: '='
+      },
+      restrict: 'AE',
+      template: '<p>{{waiter.first_name}}: (Average Rating: {{waiter.average_rating}})</p>',
+      controller: function($scope) {
+
+      }
+    }
+  })
+
 /*
   This is basically overriding the existing normal <input> directive. I am not sure of the ramifications
   doing this, however, I am not sure of a way to extend the original functionality of an input directive in angular.
@@ -49,3 +62,5 @@ function chatInput($timeout) {
     }
   }
 }
+
+
