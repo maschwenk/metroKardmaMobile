@@ -10,9 +10,11 @@ angular.module('starter.directives', [])
         waiter: '='
       },
       restrict: 'AE',
-      template: '<p>{{waiter.first_name}}: (Average Rating: {{waiter.average_rating}})</p>',
+      template: '<p ng-click="sayHello()">{{waiter.first_name}}: (Average Rating: {{waiter.average_rating}})</p>',
       controller: function($scope) {
-
+          $scope.sayHello = function(){
+            alert("Hello There")
+          }
       }
     }
   })
