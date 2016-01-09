@@ -21,48 +21,81 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+$metroCardOrange:  #E8A81F;
+
 .scroll {
     height: 100%;
 }
 
-.chatMessages {
-  color: white;
+
+
+
+.button.sendKardmaBtn{
+  background-color: $metroCardOrange;
   border: none;
-//  max-width: 240px !important;
-  padding: 10px;
-  span{
-    //display: inline-block !important;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.messageDetailsView {
+  .sendKardmaBtn{
+    padding-right: 10px;
+  }
+  .item-input-inset {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .item-input-wrapper{
+    border-radius: 0 !important;
+  }
+
+
+  .item-input-wrapper input {
+    height: 32px !important;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+  .chatMessages {
+    color: white;
+    border: none;
+    //  max-width: 240px !important;
     padding: 10px;
-    border-radius: 10px;
-  }
-}
-
-.myMessage {
-  @extend  .chatMessages;
-  text-align: right;
-  span{
-    background-color: #007AFF;
+    span{
+      //display: inline-block !important;
+      padding: 10px;
+      border-radius: 10px;
+    }
   }
 
-}
+  .myMessage {
+    @extend  .chatMessages;
+    text-align: right;
+    span{
+      background-color: #007AFF;
+    }
 
-.theirMessage {
-  @extend .chatMessages;
-  text-align: left;
-  span{
-    background-color: #C7C7CC;
   }
-}
 
+  .theirMessage {
+    @extend .chatMessages;
+    text-align: left;
+    span{
+      background-color: #C7C7CC;
+    }
+  }
 
-.sendMessageBtn{
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 10px;
+  .sendMessageBtn{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+    border: none;
+    margin-left: 0px !important;
+  }
 
-  border-top-right-radius: 10px;
-  border: none;
-  margin-left: 0px !important;
 }
 
 #map {
