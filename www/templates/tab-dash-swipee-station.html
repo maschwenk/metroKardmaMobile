@@ -10,7 +10,7 @@
         <div class="item item-body">
         <p ng-show="{{station.exchanges_needing_swipee.length == 0}}">Nobody is waiting to provide a swipe at this station</p>
         <p ng-repeat="exchange in station.exchanges_needing_swipee">
-          <person-waiting waiter="exchange.swiper"></person-waiting>
+          <exchange-waiting exchange="exchange" waiter="exchange.swiper" hide-modal="hideModal()"></person-waiting>
         </p>
         <button class="btn btn-danger" ng-click="checkForExchangesAndCreate()">Request Swipe at this station</button>
       </div>
