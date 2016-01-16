@@ -122,6 +122,10 @@ angular.module('starter.services', [])
     })
   };
 
+  o.updateWithMatch = function(id) {
+    return $http.put('http://localhost:3000/kardma_exchanges/update_with_match/' + id + '.json')
+  }
+
   o.cancelThenCreate= function(idToCancel, newStationId, role)  {
     return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
         $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})

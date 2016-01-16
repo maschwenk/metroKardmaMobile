@@ -1,3 +1,6 @@
+/**
+ * Created by maxschwenk on 11/14/15.
+ */
 (function(){
 angular.module('starter.filters', [])
   .filter('titleCase', titleCase);
