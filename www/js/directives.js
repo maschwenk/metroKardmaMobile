@@ -4,19 +4,44 @@
 
 angular.module('starter.directives', [])
   .directive('input', chatInput)
-  .directive('personWaiting', function() {
+  .directive('exchangeWaiting', function() {
     return {
       scope: {
-        waiter: '='
+        exchange: '=',
+        waiter: '=',
+        hideModal: '&'
       },
       restrict: 'AE',
-      template: '<p ng-click="sayHello()">{{waiter.first_name}}: (Average Rating: {{waiter.average_rating}})</p>',
-      controller: function($scope) {
-          $scope.sayHello = function(){
-            alert("Hello There")
+      template: '<p ng-click="updateExchangeAndStartChat(exchange.id)">{{waiter.first_name}}: (Average Rating: {{waiter.average_rating}})</p>',
+      controller: function($scope, $stateParams, Auth, Chat, $state, kardmaExchanges) {
+          var vm = this;
+          vm.currentUser = Auth._currentUser.id;
+
+          $scope.updateExchangeAndStartChat = function(exchangeId) {
+            kardmaExchanges.updateWithMatch(exchangeId).then(function(response){
+                var exchangeId = response.data.exchange_id
+                console.log(exchangeId)
+                //logic for starting the chat goes here
+                $scope.startChat(exchangeId)
+            })
           }
+
+          $scope.startChat = function(exchangeId) {
+            // if ($stateParams.role == "swiper") {
+            //   var newChat = new Chat({swiper_id: vm.currentUser, swipee_id: otherUserId});
+            // } else if ($stateParams.role == "swipee") {
+            //   var newChat = new Chat({swiper_id: otherUserId, swipee_id: vm.currentUser});
+            // }
+            var newChat = new Chat({exchange_id: exchangeId})
+            newChat.$save().then(function(chat){
+              console.log('chat created. Id is ' + chat)
+              $scope.hideModal();
+              $state.go('tab.chat-detail', {'chatId': chat.chat_id});
+            })
+
       }
     }
+  }
   })
 
 /*
