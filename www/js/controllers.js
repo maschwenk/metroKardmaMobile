@@ -59,7 +59,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
         $scope.modal.show();
       });
 
-  function hideModal() {
+  $scope.hideModal = function() {
     $scope.modal.hide()
   }
 
@@ -76,7 +76,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
             confirmPopup.then(function(resp) {
               if(resp) {
                 kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $stateParams.role).then(function() {
-                    hideModal();
+                    $scope.hideModal();
                     $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
                 })
               } else {
@@ -84,7 +84,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
               }
             })
         } else {
-          hideModal();
+          $scope.hideModal();
           $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
 
         }
@@ -115,7 +115,7 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
   }
 })
 
-.controller('ChatsCtrl', function($scope, UserCatalog, Chat, Auth, $state) {
+.controller('ChatsCtrl', function($scope, UserCatalog, Chat, Auth, $state, $stateParams) {
   // With the new view caching in Ionic, Controllers are only called
   // when they are recreated or on app start, instead of every page change.
   // To listen for when this page is active (for example, to refresh data),
@@ -161,8 +161,8 @@ angular.module('starter.controllers', ['ngResource','uiGmapgoogle-maps'])
     $ionicScrollDelegate.$getByHandle('messageScroll').scrollBottom(true);
     Chat.get({chatId: $stateParams.chatId}).$promise.then(function (chat) {
       vm.chat = chat;
-      var otherUserQuery = vm.currentUser.id === chat.swiper_id ?
-        User.get({userId: chat.swipee_id}) : User.get({userId: chat.swiper_id});
+      var otherUserQuery = vm.currentUser.id === chat.kardma_exchange.swiper_id ?
+        User.get({userId: chat.kardma_exchange.swipee_id}) : User.get({userId: chat.kardma_exchange.swiper_id});
       otherUserQuery.$promise.then(function (otherUser) {
         vm.otherUser = otherUser;
         startRefresh();
