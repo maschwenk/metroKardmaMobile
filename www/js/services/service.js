@@ -37,48 +37,7 @@ angular.module('starter.services', [])
   //return $resource("http://localhost:3000/stations/");
 })
 
-.factory('SwiperSwipeeRole', function() {
-   var o = {
-     //default to swipee now
-     currentRole: 'swipee'
-   };
-   o.getCurrentRole = getCurrentRole;
-   o.setCurrentRole = setCurrentRole;
-   o.isSwiper = isSwiper;
-   o.isSwipee = isSwipee;
-   o.toggleRole = toggleRole;
-   return o;
 
-   function getCurrentRole(){
-     return o.currentRole;
-   }
-
-   function isSwiper(){
-     return o.currentRole === 'swiper';
-   }
-
-   function isSwipee(){
-     return o.currentRole === 'swipee';
-   }
-
-   function setCurrentRole(role){
-     if (role === 'swipee' || role === 'swiper'){
-       o.currentRole = role;
-       console.info('Changed role to ' + role);
-     }
-     throw new Exception("Role is incorrectly specified");
-   }
-
-   function toggleRole(){
-     if ( o.getCurrentRole() === 'swipee' ) {
-       o.currentRole = 'swiper';
-     }
-     else{
-       o.currentRole = 'swipee';
-     }
-     return o.currentRole;
-   }
- })
 
 .factory('Station', function($http) {
   var o = {

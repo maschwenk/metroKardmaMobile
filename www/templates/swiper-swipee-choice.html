@@ -1,11 +1,11 @@
 <!-- /mobile/www/templates/login.html -->
-<ion-view view-title="Blue pill or red pill">
+<ion-view view-title="Choose Your Role">
   <ion-content class="swiperSwipeeTab padding">
 
-    <button class="button button-block button-positive" ng-click="swiperSwipeeChoiceCtl.goToMap('swipee')">
+    <button class="button button-block button-positive" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swipee')">
       I am looking for a swipe
     </button>
-    <button class="button button-block button-positive" ng-click="swiperSwipeeChoiceCtl.goToMap('swiper')">
+    <button class="button button-block button-positive" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swiper')">
       I am looking to swipe someone
     </button>
   </ion-content>

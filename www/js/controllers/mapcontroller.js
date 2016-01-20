@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('MapCtrl', function($scope,$cordovaGeolocation,$state,$stateParams, Stations) {
+angular.module('starter.controllers').controller('MapCtrl', function($scope,$cordovaGeolocation,$state, Stations, SwiperSwipeeRoleService) {
   var vm = this;
   vm.stations = Stations.queryAll();
 
@@ -34,7 +34,7 @@ angular.module('starter.controllers').controller('MapCtrl', function($scope,$cor
         });
 
         google.maps.event.addListener(marker, 'click', function(){
-          $state.go('tab.map.station', {stationId: station.id, role:$stateParams.role})
+          $state.go('tab.map.station', {stationId: station.id})
         })
 
       })

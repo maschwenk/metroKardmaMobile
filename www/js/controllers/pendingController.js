@@ -1,5 +1,5 @@
-angular.module('starter.controllers').controller('PendingCtrl', function($scope, $stateParams, $state, $ionicModal,kardmaExchanges, station, exchange) {
-  $scope.role = $stateParams.role;
+angular.module('starter.controllers').controller('PendingCtrl', function($scope, $state, $ionicModal,kardmaExchanges, station, exchange, SwiperSwipeeRoleService) {
+  $scope.role = SwiperSwipeeRoleService.getCurrentRole();
   $scope.station = station;
 
   $ionicModal.fromTemplateUrl('templates/tab-map-pending.html', {
@@ -10,10 +10,15 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
         $scope.modal.show();
     });
 
+  $scope.hideModal = function() {
+    $scope.modal.hide()
+  }
+
   $scope.cancelExchange = function() {
     kardmaExchanges.cancel(exchange.id).then(function() {
+      $scope.hideModal();
       $state.go('tab.map.station', {
-        stationId: station.id, role: $stateParams.role
+        stationId: station.id
       })
     })
   }

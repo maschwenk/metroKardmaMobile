@@ -1,8 +1,8 @@
-angular.module('starter.controllers').controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, $ionicModal, station, kardmaExchanges){
+angular.module('starter.controllers').controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, $ionicModal, station, kardmaExchanges, SwiperSwipeeRoleService){
   $scope.station = station;
-  $scope.role = $stateParams.role;
+  $scope.role = SwiperSwipeeRoleService.getCurrentRole();
 
-  $ionicModal.fromTemplateUrl('templates/tab-map-' + $stateParams.role + '-station.html', {
+  $ionicModal.fromTemplateUrl('templates/tab-map-station.html', {
         scope: $scope,
         animation: 'slide-in-up'
       }).then(function(modal) {
@@ -15,7 +15,7 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
   }
 
   $scope.checkForExchangesAndCreate = function() {
-      kardmaExchanges.create($stateParams.stationId, $stateParams.role).then(function(res) {
+      kardmaExchanges.create($stateParams.stationId, $scope.role).then(function(res) {
           if (res.data.errors) {
             //this branch occurs if the current user has another pending exchange open
             roleInOtherExchange = res.data.errors[0]
@@ -26,9 +26,9 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
             })
             confirmPopup.then(function(resp) {
               if(resp) {
-                kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $stateParams.role).then(function() {
+                kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $scope.role).then(function() {
                     $scope.hideModal();
-                    $state.go('tab.map.pending', {stationId: station.id, role:$stateParams.role})
+                    $state.go('tab.map.pending', {stationId: station.id})
                 })
               } else {
                 console.log("You are not sure")
@@ -36,7 +36,7 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
             })
         } else {
           $scope.hideModal();
-          $state.go('tab.map.pending', {stationId: station.id, role:$stateParams.role})
+          $state.go('tab.map.pending', {stationId: station.id})
 
         }
       })

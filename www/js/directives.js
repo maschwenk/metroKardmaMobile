@@ -27,11 +27,6 @@ angular.module('starter.directives', [])
           }
 
           $scope.startChat = function(exchangeId) {
-            // if ($stateParams.role == "swiper") {
-            //   var newChat = new Chat({swiper_id: vm.currentUser, swipee_id: otherUserId});
-            // } else if ($stateParams.role == "swipee") {
-            //   var newChat = new Chat({swiper_id: otherUserId, swipee_id: vm.currentUser});
-            // }
             var newChat = new Chat({exchange_id: exchangeId})
             newChat.$save().then(function(chat){
               console.log('chat created. Id is ' + chat)
