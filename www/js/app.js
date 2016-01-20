@@ -82,26 +82,18 @@ angular.module('starter', ['ionic',
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.map', {
+    url: '/map',
     params: {role:null},
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl as dashCtl'
+      'tab-map': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl as mapCtl'
       }
     }
   })
-  .state('tab.dash.station', {
+  .state('tab.map.station', {
     params: {stationId:null, role:null},
-    // views: {
-    //   'tab-dash-station': {
-    //     templateUrl: function($stateParams) {
-    //       return 'templates/tab-dash-' + $stateParams.role + '-station.html'
-    //     },
-    //     controller: 'StationCtrl'
-    //   }
-    // },
     cache: false,
     controller: 'StationCtrl',
     resolve: {
@@ -110,14 +102,14 @@ angular.module('starter', ['ionic',
       },
       pendingExchange: function(station, $state, $stateParams) {
         if (station.pending_exchange_for_user.length > 0) {
-          $state.go('tab.dash.pending', {stationId: station.id, role:$stateParams.role})
+          $state.go('tab.map.pending', {stationId: station.id, role:$stateParams.role})
         }
       }
 
     }
   })
 
-  .state('tab.dash.pending', {
+  .state('tab.map.pending', {
     params: {role: null, stationId:null},
     // views: {
     //   'tab-dash-station': {
