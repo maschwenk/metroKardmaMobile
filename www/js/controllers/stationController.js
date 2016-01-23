@@ -1,6 +1,9 @@
-angular.module('starter.controllers').controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, $ionicModal, station, kardmaExchangeService, SwiperSwipeeRoleService){
-  $scope.station = station;
-  $scope.role = SwiperSwipeeRoleService.getCurrentRole();
+angular.module('starter.controllers').controller('StationCtrl', function($scope, $state, $ionicPopup, $ionicModal, station, kardmaExchangeService, SwiperSwipeeRoleService){
+
+  var vm = this;
+
+  vm.station = station;
+  vm.role = SwiperSwipeeRoleService.getCurrentRole();
 
   $ionicModal.fromTemplateUrl('templates/tab-map-station.html', {
         scope: $scope,
@@ -10,12 +13,12 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
         $scope.modal.show();
       });
 
-  $scope.hideModal = function() {
+  vm.hideModal = function() {
     $scope.modal.hide()
   }
 
-  $scope.checkForExchangesAndCreate = function() {
-      kardmaExchangeService.create($stateParams.stationId, $scope.role).then(function(res) {
+  vm.checkForExchangesAndCreate = function() {
+      kardmaExchangeService.create(vm.station.id, vm.role).then(function(res) {
           if (res.data.errors) {
             //this branch occurs if the current user has another pending exchange open
             roleInOtherExchange = res.data.errors[0]
@@ -26,17 +29,17 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
             })
             confirmPopup.then(function(resp) {
               if(resp) {
-                kardmaExchangeService.cancelThenCreate(idOtherExchange, $stateParams.stationId, $scope.role).then(function() {
-                    $scope.hideModal();
-                    $state.go('tab.map.pending', {stationId: station.id})
+                kardmaExchangeService.cancelThenCreate(idOtherExchange, vm.station.id, vm.role).then(function() {
+                    vm.hideModal();
+                    $state.go('tab.map.pending', {stationId: vm.station.id})
                 })
               } else {
                 console.log("You are not sure")
               }
             })
         } else {
-          $scope.hideModal();
-          $state.go('tab.map.pending', {stationId: station.id})
+          vm.hideModal();
+          $state.go('tab.map.pending', {stationId: vm.station.id})
 
         }
       })

@@ -1,29 +1,29 @@
 <ion-modal-view style="width: 100%; height: 20%; top: 25%; bottom: 55%;">
   <ion-header-bar class="bar bar-header bar-positive">
-    <h1 class="title">{{station.name}} ({{station.lines}})</h1>
+    <h1 class="title">{{stationCtl.station.name}} ({{stationCtl.station.lines}})</h1>
   </ion-header-bar>
 
 
 
     <ion-content class="padding">
-      <div ng-if="role == 'swipee'" class="list">
+      <div ng-if="stationCtl.role == 'swipee'" class="list">
         <div class="item item-body">
-        <p ng-show="{{station.exchanges_needing_swipee.length == 0}}">Nobody is waiting to provide a swipe at this station</p>
-        <p ng-repeat="exchange in station.exchanges_needing_swipee">
-          <exchange-directive exchange="exchange" waiter="exchange.swiper" hide-modal="hideModal()"></exchange-directive>
+        <p ng-show="{{stationCtl.station.exchanges_needing_swipee.length == 0}}">Nobody is waiting to provide a swipe at this station</p>
+        <p ng-repeat="exchange in stationCtl.station.exchanges_needing_swipee">
+          <exchange-directive exchange="exchange" waiter="exchange.swiper" hide-modal="stationCtl.hideModal()"></exchange-directive>
         </p>
       </div>
-      <button class="btn btn-danger" ng-click="checkForExchangesAndCreate()">Request Swipe at this station</button>
+      <button class="btn btn-danger" ng-click="stationCtl.checkForExchangesAndCreate()">Request Swipe at this station</button>
     </div>
 
-    <div ng-if="role == 'swiper'" class="list">
+    <div ng-if="stationCtl.role == 'swiper'" class="list">
         <div class="item item-body">
-            <p ng-show="{{station.exchanges_needing_swiper.length == 0}}">Nobody is waiting for a swipe at this station</p>
-            <p ng-repeat="exchange in station.exchanges_needing_swiper">
-              <exchange-directive exchange="exchange"waiter="exchange.swipee" hide-modal="hideModal()"></exchange-directive>
+            <p ng-show="{{stationCtl.station.exchanges_needing_swiper.length == 0}}">Nobody is waiting for a swipe at this station</p>
+            <p ng-repeat="exchange in stationCtl.station.exchanges_needing_swiper">
+              <exchange-directive exchange="exchange"waiter="exchange.swipee" hide-modal="stationCtl.hideModal()"></exchange-directive>
             </p>
         </div>
-        <button class="btn btn-danger" ng-click="checkForExchangesAndCreate()" >Provide a Swipe at this Station</button>
+        <button class="btn btn-danger" ng-click="stationCtl.checkForExchangesAndCreate()" >Provide a Swipe at this Station</button>
       </div>
     </ion-content>
 

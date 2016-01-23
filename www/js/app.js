@@ -94,7 +94,7 @@ angular.module('starter', ['ionic',
   .state('tab.map.station', {
     params: {stationId:null},
     cache: false,
-    controller: 'StationCtrl',
+    controller: 'StationCtrl as stationCtl',
     resolve: {
       station: function($stateParams, stationService, SwiperSwipeeRoleService) {
         return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
@@ -110,12 +110,6 @@ angular.module('starter', ['ionic',
 
   .state('tab.map.pending', {
     params: {stationId:null},
-    // views: {
-    //   'tab-dash-station': {
-    //     templateUrl:'templates/tab-dash-pending.html',
-    //     controller: 'PendingCtrl'
-    //   }
-    // },
     cache: false,
     controller: 'PendingCtrl',
     resolve: {
