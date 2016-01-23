@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, $ionicModal, station, kardmaExchanges, SwiperSwipeeRoleService){
+angular.module('starter.controllers').controller('StationCtrl', function($scope, $stateParams, $state, $ionicPopup, $ionicModal, station, kardmaExchangeService, SwiperSwipeeRoleService){
   $scope.station = station;
   $scope.role = SwiperSwipeeRoleService.getCurrentRole();
 
@@ -15,7 +15,7 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
   }
 
   $scope.checkForExchangesAndCreate = function() {
-      kardmaExchanges.create($stateParams.stationId, $scope.role).then(function(res) {
+      kardmaExchangeService.create($stateParams.stationId, $scope.role).then(function(res) {
           if (res.data.errors) {
             //this branch occurs if the current user has another pending exchange open
             roleInOtherExchange = res.data.errors[0]
@@ -26,7 +26,7 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
             })
             confirmPopup.then(function(resp) {
               if(resp) {
-                kardmaExchanges.cancelThenCreate(idOtherExchange, $stateParams.stationId, $scope.role).then(function() {
+                kardmaExchangeService.cancelThenCreate(idOtherExchange, $stateParams.stationId, $scope.role).then(function() {
                     $scope.hideModal();
                     $state.go('tab.map.pending', {stationId: station.id})
                 })

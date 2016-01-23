@@ -1,9 +1,9 @@
-angular.module('starter.controllers').controller('exchangeController', function($scope, Auth, Chat, $state, kardmaExchanges) {
+angular.module('starter.controllers').controller('exchangeController', function($scope, Auth, Chat, $state, kardmaExchangeService) {
       var vm = this;
       vm.currentUser = Auth._currentUser.id;
 
       vm.updateExchangeAndStartChat = function(exchangeId) {
-        kardmaExchanges.updateWithMatch(exchangeId).then(function(response){
+        kardmaExchangeService.updateWithMatch(exchangeId).then(function(response){
             var exchangeId = response.data.exchange_id
             console.log(exchangeId)
             //logic for starting the chat goes here

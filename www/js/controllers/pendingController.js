@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('PendingCtrl', function($scope, $state, $ionicModal,kardmaExchanges, station, exchange, SwiperSwipeeRoleService) {
+angular.module('starter.controllers').controller('PendingCtrl', function($scope, $state, $ionicModal,kardmaExchangeService, station, exchange, SwiperSwipeeRoleService) {
   $scope.role = SwiperSwipeeRoleService.getCurrentRole();
   $scope.station = station;
 
@@ -15,7 +15,7 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
   }
 
   $scope.cancelExchange = function() {
-    kardmaExchanges.cancel(exchange.id).then(function() {
+    kardmaExchangeService.cancel(exchange.id).then(function() {
       $scope.hideModal();
       $state.go('tab.map.station', {
         stationId: station.id
