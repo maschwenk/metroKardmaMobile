@@ -96,8 +96,8 @@ angular.module('starter', ['ionic',
     cache: false,
     controller: 'StationCtrl',
     resolve: {
-      station: function($stateParams, Station, SwiperSwipeeRoleService) {
-        return Station.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
+      station: function($stateParams, stationService, SwiperSwipeeRoleService) {
+        return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
       },
       pendingExchange: function(station, $state, $stateParams, SwiperSwipeeRoleService) {
         if (station.pending_exchange_for_user.length > 0) {
@@ -119,8 +119,8 @@ angular.module('starter', ['ionic',
     cache: false,
     controller: 'PendingCtrl',
     resolve: {
-      station: function($stateParams, Station, SwiperSwipeeRoleService) {
-        return Station.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
+      station: function($stateParams, stationService, SwiperSwipeeRoleService) {
+        return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
       },
       exchange: function(station) {
         return station.pending_exchange_for_user[0]

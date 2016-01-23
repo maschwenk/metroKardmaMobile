@@ -1,6 +1,9 @@
-angular.module('starter.controllers').controller('MapCtrl', function($scope,$cordovaGeolocation,$state, Stations, SwiperSwipeeRoleService) {
+angular.module('starter.controllers').controller('MapCtrl', function($scope,$cordovaGeolocation,$state, stationService, SwiperSwipeeRoleService) {
   var vm = this;
-  vm.stations = Stations.queryAll();
+
+  stationService.getAll().then(function(stationsFromService) {
+    vm.stations = stationsFromService;
+  })
 
   var options = {timeout: 10000, enableHighAccuracy: true};
 
