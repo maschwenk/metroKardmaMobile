@@ -4,41 +4,6 @@
 
 angular.module('starter.directives', [])
   .directive('input', chatInput)
-  .directive('exchangeWaiting', function() {
-    return {
-      scope: {
-        exchange: '=',
-        waiter: '=',
-        hideModal: '&'
-      },
-      restrict: 'AE',
-      template: '<p ng-click="updateExchangeAndStartChat(exchange.id)">{{waiter.first_name}}: (Average Rating: {{waiter.average_rating}})</p>',
-      controller: function($scope, $stateParams, Auth, Chat, $state, kardmaExchanges) {
-          var vm = this;
-          vm.currentUser = Auth._currentUser.id;
-
-          $scope.updateExchangeAndStartChat = function(exchangeId) {
-            kardmaExchanges.updateWithMatch(exchangeId).then(function(response){
-                var exchangeId = response.data.exchange_id
-                console.log(exchangeId)
-                //logic for starting the chat goes here
-                $scope.startChat(exchangeId)
-            })
-          }
-
-          $scope.startChat = function(exchangeId) {
-            var newChat = new Chat({exchange_id: exchangeId})
-            newChat.$save().then(function(chat){
-              console.log('chat created. Id is ' + chat)
-              $scope.hideModal();
-              $state.go('tab.chat-detail', {'chatId': chat.chat_id});
-            })
-
-      }
-    }
-  }
-  })
-
 /*
   This is basically overriding the existing normal <input> directive. I am not sure of the ramifications
   doing this, however, I am not sure of a way to extend the original functionality of an input directive in angular.
@@ -84,5 +49,3 @@ function chatInput($timeout) {
     }
   }
 }
-
-
