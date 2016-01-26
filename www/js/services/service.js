@@ -22,3 +22,16 @@ angular.module('starter.services', [])
 .factory('UserSession', function($resource) {
   return $resource("http://localhost:3000/users/sign_in.json");
 })
+
+.factory('simpleAlertPopup', function($ionicPopup){
+  var o = {};
+  o.show = show;
+  return o;
+
+  function show(title,body){
+    return $ionicPopup.alert({
+      title: title,
+      template: body
+    });
+  }
+})

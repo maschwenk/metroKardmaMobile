@@ -13,7 +13,7 @@
           <exchange-directive exchange="exchange" waiter="exchange.swiper" hide-modal="stationCtl.hideModal()"></exchange-directive>
         </p>
       </div>
-      <button class="btn btn-danger" ng-click="stationCtl.checkForExchangesAndCreate()">Request Swipe at this station</button>
+      <button class="btn btn-danger" ng-click="stationCtl.makeRequest()">Request Swipe at this station</button>
     </div>
 
     <div ng-if="stationCtl.role == 'swiper'" class="list">
@@ -23,7 +23,7 @@
               <exchange-directive exchange="exchange"waiter="exchange.swipee" hide-modal="stationCtl.hideModal()"></exchange-directive>
             </p>
         </div>
-        <button class="btn btn-danger" ng-click="stationCtl.checkForExchangesAndCreate()" >Provide a Swipe at this Station</button>
+        <button class="btn btn-danger" ng-click="stationCtl.makeRequest()" >Provide a Swipe at this Station</button>
       </div>
     </ion-content>
 

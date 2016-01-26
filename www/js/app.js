@@ -98,13 +98,7 @@ angular.module('starter', ['ionic',
     resolve: {
       station: function($stateParams, stationService, SwiperSwipeeRoleService) {
         return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
-      },
-      pendingExchange: function(station, $state, $stateParams, SwiperSwipeeRoleService) {
-        if (station.pending_exchange_for_user.length > 0) {
-          $state.go('tab.map.pending', {stationId: station.id})
-        }
       }
-
     }
   })
 

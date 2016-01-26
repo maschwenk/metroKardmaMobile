@@ -21,15 +21,3 @@ angular.module('starter.services').factory('stationService', function($http) {
 
   return o
 })
-.factory('simpleAlertPopup', function($ionicPopup){
-  var o = {};
-  o.show = show;
-  return o;
-
-  function show(title,body){
-    return $ionicPopup.alert({
-      title: title,
-      template: body
-    });
-  }
-})
