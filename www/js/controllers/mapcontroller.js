@@ -12,8 +12,6 @@ angular.module('starter.controllers').controller('MapCtrl', function($scope,$cor
     //need to make sure that this is resolved before moving on to next steps!!
   });
 
-  console.log(vm.allPendingExchanges);
-
 
 
   var options = {timeout: 10000, enableHighAccuracy: true};
@@ -35,16 +33,16 @@ angular.module('starter.controllers').controller('MapCtrl', function($scope,$cor
 
       vm.stations.slice(10).forEach(function(station){
         var pinColor = "FE7569";
-
         //loop thru all exchanges.  If there's a pending exchange at station that is awaiting current role, change pin color
-        // for (var i = 0; i < vm.allPendingExchanges.length; i++) {
-        //   var roleNeeded = vm.allPendingExchanges[i].swiper_id == null ? "swiper" : "swipee";
+        for (var i = 0; i < vm.allPendingExchanges.length; i++) {
 
-        //   if (vm.allPendingExchanges[i].station_id == station.id && roleNeeded == vm.role) {
-        //     var pinColor = "FFFF00";
-        //     return;
-        //   }
-        // }
+          var roleNeeded = vm.allPendingExchanges[i].swiper_id == null ? "swiper" : "swipee";
+
+          if (vm.allPendingExchanges[i].station_id == station.id && roleNeeded == vm.role) {
+            var pinColor = "FFFF00";
+            break;
+          }
+        }
 
         var location = new google.maps.LatLng(station.latitude, station.longitude);
 
