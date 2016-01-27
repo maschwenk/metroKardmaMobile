@@ -5,14 +5,26 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
   vm.station = station;
   vm.role = SwiperSwipeeRoleService.getCurrentRole();
   vm.currentUser = Auth._currentUser;
+  vm.allPendingExchanges = kardmaExchangeService.allPendingExchanges
 
-  kardmaExchangeService.getPendingExchangeForUser(vm.currentUser.id).then(function(exchange) {
-    vm.pendingExchangeForUser = exchange;
-  });
+  vm.stationPendingExchanges = []
+  for (var i = 0; i < vm.allPendingExchanges.length; i++) {
+    //this is duplicated logic from map controller -- think of ways to refactor
+    var roleNeeded = vm.allPendingExchanges[i].swiper_id == null ? "swiper" : "swipee";
+    if (vm.allPendingExchanges[i].station_id == station.id && roleNeeded == vm.role) {
+      vm.stationPendingExchanges.push(vm.allPendingExchanges[i]);
+    }
+  }
 
-  if (vm.pendingExchangeForUser && vm.pendingExchangeForUser.station_id == vm.station.id) {
-    $state.go('tab.map.pending', {stationId: vm.station.id})
-  };
+  //send user to pending state if they have a pending exchange at this station
+  // kardmaExchangeService.getPendingExchangeForUser(vm.currentUser.id).then(function(exchange) {
+  //   vm.pendingExchangeForUser = exchange;
+  // });
+
+  // if (vm.pendingExchangeForUser && vm.pendingExchangeForUser.station_id == vm.station.id) {
+  //   $state.go('tab.map.pending', {stationId: vm.station.id})
+  // };
+
 
 
 
