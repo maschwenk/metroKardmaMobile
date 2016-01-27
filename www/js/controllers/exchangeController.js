@@ -1,6 +1,13 @@
-angular.module('starter.controllers').controller('exchangeController', function($scope, Auth, Chat, $state, kardmaExchangeService) {
+angular.module('starter.controllers').controller('exchangeController', function($scope, Auth, Chat, $state, kardmaExchangeService, SwiperSwipeeRoleService, userService) {
       var vm = this;
+      vm.role = SwiperSwipeeRoleService.getCurrentRole();
       vm.currentUser = Auth._currentUser.id;
+
+      vm.waiterId = vm.role == "swiper" ? $scope.exchange.swipee_id : $scope.exchange.swiper_id;
+
+      userService.get(vm.waiterId).then(function(userFromService) {
+        vm.waiter = userFromService;
+      })
 
       vm.updateExchangeAndStartChat = function(exchangeId) {
         kardmaExchangeService.updateWithMatch(exchangeId).then(function(response){
