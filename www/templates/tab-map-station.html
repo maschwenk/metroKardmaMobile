@@ -5,11 +5,11 @@
 
     <ion-content class="padding">
     <div class="item item-body">
-        <p ng-show="{{stationCtl.stationPendingExchanges.length == 0}}">Put an Ng-switch to show no one is waiting</p>
+        <p ng-show="{{stationCtl.stationPendingExchanges.length == 0}}">Nobody is waiting <span ng-switch="stationCtl.role"><span ng-switch-when="swiper">for a swipe at this station</span><span ng-switch-when="swipee">to provide a swipe at this station</span></p>
         <p ng-repeat="exchange in stationCtl.stationPendingExchanges">
           <exchange-directive exchange="exchange" hide-modal="stationCtl.hideModal()"></exchange-directive>
         </p>
-        <button class="btn btn-danger" ng-click="stationCtl.makeRequest()">Put an ng-switch here</button>
+        <button class="btn btn-danger" ng-click="stationCtl.makeRequest()" ng-switch="stationCtl.role"><span ng-switch-when="swiper">Provide a Swipe at This Station</span><span ng-switch-when="swipee">Wait for a swipe at this station</span></button>
       </div>
     </ion-content>
 </ion-modal-view>
