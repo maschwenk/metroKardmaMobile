@@ -97,7 +97,7 @@ angular.module('starter', ['ionic',
     controller: 'StationCtrl as stationCtl',
     resolve: {
       station: function($stateParams, stationService, SwiperSwipeeRoleService) {
-        return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
+        return stationService.get($stateParams.stationId)
       }
     }
   })

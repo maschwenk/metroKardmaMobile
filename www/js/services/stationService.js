@@ -11,8 +11,8 @@ angular.module('starter.services').factory('stationService', function($http) {
     })
   }
 
-  o.get = function(id, role) {
-    return $http.get('http://localhost:3000/stations/' + id + '.json', {params: {user_role: role}}).then(function(res){
+  o.get = function(id) {
+    return $http.get('http://localhost:3000/stations/' + id + '.json').then(function(res){
         return res.data
     }, function(err){
       console.log(err)
