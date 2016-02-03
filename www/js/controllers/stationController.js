@@ -40,6 +40,10 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
     $scope.modal.hide()
   }
 
+  $scope.$on('$destroy', function() {
+    $scope.modal.remove();
+  });
+
   vm.makeRequest = function() {
       //refine this logic about checking for exchange
 
@@ -61,7 +65,7 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
       // };
 
       kardmaExchangeService.create(vm.station.id, vm.role).then(function(res) {
-          vm.hideModal();
+          // vm.hideModal();
           var exchangeId = res.exchange_id;
           $state.go('tab.map.pending', {exchangeId: exchangeId})
         }
