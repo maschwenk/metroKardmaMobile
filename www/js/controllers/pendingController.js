@@ -9,7 +9,8 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
 
   $ionicModal.fromTemplateUrl('templates/tab-map-pending.html', {
         scope: $scope,
-        animation: 'slide-in-up'
+        animation: 'slide-in-up',
+        backdropClickToClose: false
     }).then(function(modal) {
         $scope.modal = modal;
         $scope.modal.show();
@@ -27,6 +28,7 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
 
   $scope.$on("$destroy",function( event ) {
     $interval.cancel(vm.exchangeIntervalObj);
+    $scope.modal.remove();
   });
 
   function startRefresh() {
