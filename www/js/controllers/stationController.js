@@ -62,7 +62,8 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
 
       kardmaExchangeService.create(vm.station.id, vm.role).then(function(res) {
           vm.hideModal();
-          $state.go('tab.map.pending', {stationId: vm.station.id})
+          var exchangeId = res.exchange_id;
+          $state.go('tab.map.pending', {exchangeId: exchangeId})
         }
       )
     }
