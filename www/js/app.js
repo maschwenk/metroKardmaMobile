@@ -103,17 +103,22 @@ angular.module('starter', ['ionic',
   })
 
   .state('tab.map.pending', {
-    params: {stationId:null},
+    params: {exchangeId:null},
     cache: false,
-    controller: 'PendingCtrl',
+    controller: 'PendingCtrl as pendingCtl',
     resolve: {
-      station: function($stateParams, stationService, SwiperSwipeeRoleService) {
-        return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
-      },
-      exchange: function(station) {
-        return station.pending_exchange_for_user[0]
+      exchange: function($stateParams, kardmaExchangeService) {
+        return kardmaExchangeService.get($stateParams.exchangeId);
       }
     }
+    // resolve: {
+    //   station: function($stateParams, stationService, SwiperSwipeeRoleService) {
+    //     return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
+    //   },
+    //   exchange: function(station) {
+    //     return station.pending_exchange_for_user[0]
+    //   }
+    // }
   })
 
   .state('tab.chats', {
