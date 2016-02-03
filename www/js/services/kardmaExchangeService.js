@@ -3,6 +3,12 @@ angular.module('starter.services').factory('kardmaExchangeService', function($ht
     kardmaExchanges: []
   };
 
+  o.get = function(id) {
+    return $http.get('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(res) {
+        return res.data;
+    });
+  }
+
   o.getAll = function() {
     return $http.get('http://localhost:3000/kardma_exchanges.json').then(function(res) {
         return res.data;
@@ -10,7 +16,9 @@ angular.module('starter.services').factory('kardmaExchangeService', function($ht
   }
 
   o.create = function(stationId, role) {
-    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role})
+    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role}).then(function(res) {
+        return res.data;
+    })
   };
 
   o.cancel = function(id) {
