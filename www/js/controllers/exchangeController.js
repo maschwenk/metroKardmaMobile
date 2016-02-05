@@ -22,7 +22,6 @@ angular.module('starter.controllers').controller('exchangeController', function(
         var newChat = new Chat({exchange_id: exchangeId})
         newChat.$save().then(function(chat){
           console.log('chat created. Id is ' + chat)
-          $scope.hideModal();
           $state.go('tab.chat-detail', {'chatId': chat.chat_id});
         })
 

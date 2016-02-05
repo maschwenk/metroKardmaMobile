@@ -16,9 +16,9 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
         $scope.modal.show();
     });
 
-  vm.hideModal = function() {
-    $scope.modal.hide()
-  }
+  // vm.hideModal = function() {
+  //   $scope.modal.hide()
+  // }
 
   startRefresh();
 
@@ -40,7 +40,7 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
       //if exchange has a chat, it means that there has been a match (chat only created when there's been a match)
       if (exchangeFromService.chat !== null) {
         var chatId = exchangeFromService.chat.id
-        vm.hideModal();
+        // vm.hideModal();
         $state.go('tab.chat-detail', {'chatId': chatId});
       }
     })
@@ -48,7 +48,7 @@ angular.module('starter.controllers').controller('PendingCtrl', function($scope,
 
   $scope.cancelExchange = function() {
     kardmaExchangeService.cancel(vm.exchange.id).then(function() {
-      vm.hideModal();
+      // vm.hideModal();
       $state.go('tab.map.station', {
         stationId: exchange.station_id
       })

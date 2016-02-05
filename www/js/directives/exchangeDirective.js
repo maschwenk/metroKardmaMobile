@@ -1,8 +1,7 @@
 angular.module('starter.directives').directive('exchangeDirective', function() {
     return {
       scope: {
-        exchange: '=',
-        hideModal: '&'
+        exchange: '='
       },
       restrict: 'AE',
       templateUrl: '../templates/exchange.html',
