@@ -30,15 +30,16 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
 
   $ionicModal.fromTemplateUrl('templates/tab-map-station.html', {
         scope: $scope,
-        animation: 'slide-in-up'
+        animation: 'slide-in-up',
+        backdropClickToClose: false
       }).then(function(modal) {
         $scope.modal = modal;
         $scope.modal.show();
       });
 
-  vm.hideModal = function() {
-    $scope.modal.hide()
-  }
+  $scope.$on('$ionicView.leave', function(e) {
+    $scope.modal.remove();
+  })
 
   $scope.$on('$destroy', function() {
     $scope.modal.remove();
@@ -65,7 +66,6 @@ angular.module('starter.controllers').controller('StationCtrl', function($scope,
       // };
 
       kardmaExchangeService.create(vm.station.id, vm.role).then(function(res) {
-          // vm.hideModal();
           var exchangeId = res.exchange_id;
           $state.go('tab.map.pending', {exchangeId: exchangeId})
         }

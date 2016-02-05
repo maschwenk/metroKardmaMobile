@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('MapCtrl', function($scope,$cordovaGeolocation,$state, stationService, kardmaExchangeService, SwiperSwipeeRoleService) {
+angular.module('starter.controllers').controller('MapCtrl', function($scope,$cordovaGeolocation,$state, stationService, kardmaExchangeService, SwiperSwipeeRoleService, $ionicHistory) {
   var vm = this;
   vm.role = SwiperSwipeeRoleService.getCurrentRole();
 
