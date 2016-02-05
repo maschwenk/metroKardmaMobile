@@ -1,13 +1,14 @@
 <ion-modal-view style="width: 100%; height: 20%; top: 25%; bottom: 55%;">
   <ion-header-bar class="bar bar-header bar-positive">
     <h1 class="title">{{stationCtl.station.name}} ({{stationCtl.station.lines}})</h1>
+    <button class="button button-clear button-primary" ng-click="modal.remove()" ui-sref="tab.map">X</button>
   </ion-header-bar>
 
     <ion-content class="padding">
     <div class="item item-body">
         <p ng-show="{{stationCtl.stationPendingExchanges.length == 0}}">Nobody is waiting <span ng-switch="stationCtl.role"><span ng-switch-when="swiper">for a swipe at this station</span><span ng-switch-when="swipee">to provide a swipe at this station</span></p>
         <p ng-repeat="exchange in stationCtl.stationPendingExchanges">
-          <exchange-directive exchange="exchange" hide-modal="stationCtl.hideModal()"></exchange-directive>
+          <exchange-directive exchange="exchange"></exchange-directive>
         </p>
         <button class="btn btn-danger" ng-click="stationCtl.makeRequest()" ng-switch="stationCtl.role"><span ng-switch-when="swiper">Provide a Swipe at This Station</span><span ng-switch-when="swipee">Wait for a swipe at this station</span></button>
       </div>
