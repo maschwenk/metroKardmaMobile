@@ -12,7 +12,7 @@ angular.module('starter', ['ionic',
                             'ngCordova', 'firebase', 'Devise' //third parties
                           ])
 
-.run(function($ionicPlatform, $state, $rootScope, $q, Auth) {
+.run(function($ionicPlatform, $state, $rootScope, $q, Auth, $log) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -29,6 +29,13 @@ angular.module('starter', ['ionic',
   $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
       , fromState, fromParams) {
 
+    //this below code will help see what happens during various state transitions - TA
+    $log.debug('successfully changes states');
+    $log.debug('event', e);
+    $log.debug('toState', toState);
+    $log.debug('toParams', toParams);
+    $log.debug('fromState', fromState);
+    $log.debug('fromParams', fromParams);
 
     var isLogin = toState.name === "login";
 
