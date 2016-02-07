@@ -31,6 +31,12 @@ angular.module('starter.services').factory('kardmaExchangeService', function($ht
     return $http.put('http://localhost:3000/kardma_exchanges/update_with_match/' + id + '.json')
   };
 
+  o.completeExchange = function(id) {
+    return $http.put('http://localhost:3000/kardma_exchanges/update_with_complete/' + id + '.json').then(function(res) {
+      return res.data;
+    })
+  }
+
   o.cancelThenCreate= function(idToCancel, newStationId, role)  {
     return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
         $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})
