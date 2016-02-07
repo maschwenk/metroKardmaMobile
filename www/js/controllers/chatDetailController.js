@@ -1,22 +1,26 @@
-angular.module('starter.controllers').controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate) {
+angular.module('starter.controllers').controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate, SwiperSwipeeRoleService, kardmaExchangeService) {
   var vm = this;
   var isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
   vm.chat = null;
   vm.otherUser = null;
+  vm.exchange = null;
   vm.messageToSend = null;
   vm.messages = [];
   vm.inputUp = inputUp;
   vm.inputDown = inputDown;
   vm.sendMessage = sendMessage;
+  vm.role = SwiperSwipeeRoleService.getCurrentRole();
+  vm.sendKardma = sendKardma;
 
   $scope.$on('$ionicView.enter', function(e) {
     vm.currentUser = Auth._currentUser;
     $ionicScrollDelegate.$getByHandle('messageScroll').scrollBottom(true);
     Chat.get({chatId: $stateParams.chatId}).$promise.then(function (chat) {
       vm.chat = chat;
-      var otherUserQuery = vm.currentUser.id === chat.kardma_exchange. swiper_id ?
-        User.get({userId: chat.kardma_exchange.swipee_id}) : User.get({userId: chat.kardma_exchange.swiper_id});
+      vm.exchange = vm.chat.kardma_exchange;
+      var otherUserQuery = vm.currentUser.id === vm.exchange.swiper_id ?
+        User.get({userId: exchange.swipee_id}) : User.get({userId: vm.exchange.swiper_id});
       otherUserQuery.$promise.then(function (otherUser) {
         vm.otherUser = otherUser;
         startRefresh();
@@ -81,5 +85,13 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
 
     })
 
+  }
+
+  function sendKardma(exchangeId) {
+    kardmaExchangeService.completeExchange(exchangeId).then(function(exchangeFromService) {
+      if (exchangeFromService.complete) {
+        vm.exchange.complete = true;
+      }
+    })
   }
 })
