@@ -19,6 +19,12 @@
 
   </ion-content>
   <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+  <button
+      class="button button-balanced sendKardmaBtn"
+      ng-show="chatDetailCtl.role == 'swipee'"
+      ng-click="chatDetailCtl.sendKardma(chatDetailCtl.exchange.id)" ng-disabled="chatDetailCtl.exchange.complete">
+      Send Kardma
+    </button>
     <label class="item-input-wrapper">
       <input type="text" placeholder="Type your message"
              on-return="chatDetailCtl.sendMessage()"
