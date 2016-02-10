@@ -74,17 +74,21 @@ angular.module('starter', ['ionic',
 
 
   $httpProvider.defaults.withCredentials = true;
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+
   $stateProvider
 
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    controller: function ($scope, $rootScope) {
+      //consider emitting an event from the chatDetail controller to say that a chat is in progress.  Listen to that event here and set a value to true, then use disabled property of ion-tabs to disable tabs
+
+      // $scope.chatIsHappening = function() {
+      //   return true;
+      // }
+    }
   })
 
   // Each tab has its own nav history stack:
