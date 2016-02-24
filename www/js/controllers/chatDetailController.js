@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate, SwiperSwipeeRoleService, kardmaExchangeService) {
+angular.module('starter.controllers').controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate, SwiperSwipeeRoleService, kardmaExchangeService, $state) {
   var vm = this;
   var isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
@@ -20,7 +20,7 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
       vm.chat = chat;
       vm.exchange = vm.chat.kardma_exchange;
       var otherUserQuery = vm.currentUser.id === vm.exchange.swiper_id ?
-        User.get({userId: exchange.swipee_id}) : User.get({userId: vm.exchange.swiper_id});
+        User.get({userId: vm.exchange.swipee_id}) : User.get({userId: vm.exchange.swiper_id});
       otherUserQuery.$promise.then(function (otherUser) {
         vm.otherUser = otherUser;
         startRefresh();
@@ -31,10 +31,12 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
 
   $scope.$on('$ionicView.leave', function(e) {
     $interval.cancel(vm.messagesIntervalObj);
+    $interval.cancel(vm.checkForCompletionInterval);
   })
 
   $scope.$on("$destroy",function( event ) {
     $interval.cancel(vm.messagesIntervalObj);
+    $interval.cancel(vm.checkForCompletionInterval);
   });
 
   function inputUp() {
@@ -51,6 +53,7 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
 
   function startRefresh(){
     vm.messagesIntervalObj = $interval(getAllMessages, 1000);
+    vm.checkForCompletionInterval = $interval(checkForCompletion, 10000);
   }
 
   function getAllMessages(){
@@ -69,6 +72,15 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
     });
 
 
+  }
+
+  function checkForCompletion() {
+    kardmaExchangeService.get(vm.exchange.id).then(function(exchangeFromService) {
+        if (exchangeFromService.complete) {
+          vm.exchange.complete = true;
+          $state.go('swiper-swipee-choice')
+        }
+    })
   }
 
   function sendMessage(){
