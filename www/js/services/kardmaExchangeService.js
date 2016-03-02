@@ -1,6 +1,5 @@
 angular.module('starter.services').factory('kardmaExchangeService', function($http) {
   var o = {
-    kardmaExchanges: []
   };
 
   o.get = function(id) {
@@ -48,6 +47,7 @@ angular.module('starter.services').factory('kardmaExchangeService', function($ht
       return res.data;
     })
   }
+
 
   o.setAllExchanges = function(exchanges) {
     o.allExchanges = exchanges

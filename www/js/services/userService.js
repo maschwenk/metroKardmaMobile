@@ -1,6 +1,5 @@
 angular.module('starter.services').factory('userService', function($http) {
   var o = {
-    users: []
   };
 
   o.get = function(id) {
