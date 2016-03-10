@@ -1,17 +1,23 @@
-<!-- /mobile/www/templates/login.html -->
 <ion-view view-title="Login">
-  <ion-content>
+<ion-content>
+<div class="big-container">
+
+  <div class="content-container">
     <div class="list list-inset">
       <label class="item item-input">
-        <input type="text" placeholder="Email" ng-model="loginCtl.loginCredentials.email">
+      <input type="text" placeholder="Email" ng-model="loginCtl.loginCredentials.email">
       </label>
       <label class="item item-input">
-        <input type="text" placeholder="Password" ng-model="loginCtl.loginCredentials.password">
+      <input type="text" placeholder="Password" ng-model="loginCtl.loginCredentials.password">
       </label>
     </div>
 
     <div class="padding">
       <button class="button button-block button-positive" ng-click="loginCtl.login()">Login</button>
     </div>
-  </ion-content>
+  </div>
+
+  <img src="img/subwaymap.png">
+</div>
+ </ion-content>
 </ion-view>

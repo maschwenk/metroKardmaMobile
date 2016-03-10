@@ -95,6 +95,7 @@ angular.module('starter', ['ionic',
 
   .state('tab.map', {
     url: '/map',
+    cache: false,
     views: {
       'tab-map': {
         templateUrl: 'templates/tab-map.html',
@@ -146,6 +147,7 @@ angular.module('starter', ['ionic',
 
   .state('tab.chat-detail', {
     url: '/chats/:chatId',
+    cache: false,
     views: {
       'tab-chats': {
         templateUrl: 'templates/chat-detail.html',
@@ -160,6 +162,7 @@ angular.module('starter', ['ionic',
   })
   .state('swiper-swipee-choice',{
       url: '/swiperSwipeeChoice',
+      cache: false,
       controller: 'SwiperSwipeeChoiceCtl as swiperSwipeeChoiceCtl',
       templateUrl: 'templates/swiper-swipee-choice.html'
   })

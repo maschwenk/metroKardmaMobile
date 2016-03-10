@@ -102,3 +102,23 @@ $metroCardOrange:  #E8A81F;
     width: 100%;
     height: 70%;
 }
+
+.big-container {
+    position: relative;
+    overflow: hidden;
+}
+
+//need to figure out a way to vertically center the  content-container
+.big-container .content-container {
+    padding: 200px;
+    position: relative;
+    z-index: 2;
+}
+.big-container img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    opacity: 0.4;
+}

@@ -82,7 +82,6 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
         }
     })
   }
-
   function sendMessage(){
     var Message = $resource('http://localhost:3000/chats/:chatId/messages/:messageId',
       {chatId: vm.chat.id, messageId:'@id'});
