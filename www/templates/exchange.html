@@ -1,1 +1,10 @@
-<p ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)">{{exchangeCtl.waiter.first_name}} (Average Rating: {{exchangeCtl.waiter.average_rating}})</p>
+<!-- <p ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)">{{exchangeCtl.waiter.first_name}} (Average Rating: {{exchangeCtl.waiter.average_rating}})</p> -->
+
+<div ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)" class="row person-waiting">
+  <div class="col-10">
+    <p>Picture Goes Here</p>
+  </div>
+  <div class="col-30 col-offset-25">
+    <p>{{exchangeCtl.waiter.first_name}}</p>
+  </div>
+</div>

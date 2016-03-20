@@ -1,15 +1,17 @@
 <!-- /mobile/www/templates/login.html -->
-<ion-view view-title="MetroKardma" hide-back-button="true" style="background-color: yellow;">
-  <ion-content class="swiperSwipeechoice padding">
-    <div> My total Kardma: {{swiperSwipeeChoiceCtl.curUserKardmaCount}}</div>
-
-    <div style="top: 30%; position: absolute !important;margin:0 auto;width:100%;">
-      <button class="button button-block button-positive" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swipee')">
+<ion-view view-title="MetroKardma" hide-back-button="true">
+  <ion-content scroll="false" class="big-container">
+  <div class="bar bar-subheader">
+    <h3 class="title">Total Kardma: {{swiperSwipeeChoiceCtl.curUserKardmaCount}}</h2>
+  </div>
+    <div class="content-container">
+      <button class="button button-block button-balanced" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swipee')">
         I Need a Swipe
       </button>
-      <button class="button button-block button-positive" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swiper')">
+      <button class="button button-block button-dark" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swiper')">
         I Have a Swipe
       </button>
-    </div>
+
+  </div>
   </ion-content>
 </ion-view>

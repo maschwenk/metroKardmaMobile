@@ -18,13 +18,30 @@ $dark:                            #444 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
+$energized:  #E8A81F;
+$balanced: #1874CD;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 $metroCardOrange:  #E8A81F;
+$metroCardBlue:    #1874CD;
 
 .scroll {
     height: 100%;
+}
+
+.login {
+  background-color: $metroCardBlue;
+  border-top: 1px solid $metroCardBlue;
+  border-bottom: 1px solid black;
+  border-right: 1px solid $metroCardBlue;
+
+
+}
+
+.login-input {
+    color: white;
 }
 
 
@@ -100,25 +117,46 @@ $metroCardOrange:  #E8A81F;
 
 #map {
     width: 100%;
-    height: 70%;
+    height: 100%;
 }
+
 
 .big-container {
-    position: relative;
-    overflow: hidden;
+    background: url('../img/subwaymap.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
 
-//need to figure out a way to vertically center the  content-container
-.big-container .content-container {
-    padding: 200px;
-    position: relative;
-    z-index: 2;
+.turnstile {
+  background: url('../img/turnstile.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 }
-.big-container img {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: auto;
-    opacity: 0.4;
+
+.content-container {
+    padding: 40px 0px;
+    background-color: $metroCardOrange;
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 50%;
+}
+
+.header-bar {
+  background-color: red;
+}
+
+.request {
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 40%;
+  background-color: $dark;
+  color: #F5F5F5;
+}
+
+.request:hover {
+  color: $metroCardBlue;
 }
