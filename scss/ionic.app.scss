@@ -160,3 +160,14 @@ $metroCardBlue:    #1874CD;
 .request:hover {
   color: $metroCardBlue;
 }
+
+ #waiter_pic {
+    height: auto;
+    width: auto;
+    max-height: 75px;
+    max-width: 300px;
+ }
+
+ .person-waiting {
+    background-color: $metroCardOrange;
+ }

@@ -6,7 +6,7 @@
 
 
     <ion-content class="padding turnstile">
-    <div class="item item-body" ng-repeat="exchange in stationCtl.stationPendingExchanges">
+    <div ng-repeat="exchange in stationCtl.stationPendingExchanges">
           <exchange-directive exchange="exchange"></exchange-directive>
       </div>
       <button class="button request" ng-click="stationCtl.makeRequest()" ng-switch="stationCtl.role"><span ng-switch-when="swiper">Provide Swipe</span><span ng-switch-when="swipee">Request Swipe</span></button>

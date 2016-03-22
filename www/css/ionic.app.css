@@ -9180,3 +9180,12 @@ a.button {
 
 .request:hover {
   color: #1874CD; }
+
+#waiter_pic {
+  height: auto;
+  width: auto;
+  max-height: 75px;
+  max-width: 300px; }
+
+.person-waiting {
+  background-color: #E8A81F; }

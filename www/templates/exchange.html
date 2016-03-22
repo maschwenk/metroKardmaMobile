@@ -2,9 +2,12 @@
 
 <div ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)" class="row person-waiting">
   <div class="col-10">
-    <p>Picture Goes Here</p>
+    <img id="waiter_pic" src="img/default-avatar.png" />
   </div>
   <div class="col-30 col-offset-25">
-    <p>{{exchangeCtl.waiter.first_name}}</p>
+    <h2 style="margin-top: 50%;">{{exchangeCtl.waiter.first_name}}</h2>
+  </div>
+  <div class="col-35 col-offset-10">
+    <button style="margin-top: 10%" class="button button-block button-dark" ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)">Provide Swipe</button>
   </div>
 </div>
