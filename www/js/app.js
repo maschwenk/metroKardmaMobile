@@ -8,7 +8,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic',
-                            'starter.controllers', 'starter.services', 'starter.directives', //our modules
+                            'starter.controllers', 'starter.services', 'starter.directives', 'starter.filters', //our modules
                             'ngCordova', 'firebase', 'Devise' //third parties
                           ])
 
@@ -71,7 +71,6 @@ angular.module('starter', ['ionic',
 
 })
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, AuthProvider) {
-
 
   $httpProvider.defaults.withCredentials = true;
 

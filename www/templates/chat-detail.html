@@ -4,8 +4,10 @@
   The FriendsCtrl pulls data from the Friends service (service.js)
   The Friends service returns an array of friend data
 -->
-<ion-view view-title="Chat between you and {{ chatDetailCtl.otherUser.first_name }}">
-  <ion-content class="padding" delegate-handle="messageScroll">
+<ion-view
+    class="messageDetailsView"
+    view-title="Chat between you and {{ chatDetailCtl.otherUser.first_name }}">
+  <ion-content class="padding" has-header="true" delegate-handle="messageScroll">
     <!--{{ chatDetailCtl | json }}-->
     <ion-item collection-repeat="message in chatDetailCtl.messages track by message.id"
               item-height="55px"
@@ -32,8 +34,11 @@
              on-focus="chatDetailCtl.inputUp()"
              on-blur="chatDetailCtl.inputDown()" />
     </label>
+
+
     <button class="button button-positive sendMessageBtn" ng-click="chatDetailCtl.sendMessage()">
       Send
     </button>
+
   </ion-footer-bar>
 </ion-view>
