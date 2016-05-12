@@ -28,4 +28,6 @@ angular.module('starter.filters', [])
       });
     };
   }
+
 })();
+

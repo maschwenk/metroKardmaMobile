@@ -3,7 +3,7 @@
  */
 
 angular.module('starter.directives', [])
-  .directive('input', chatInput);
+  .directive('input', chatInput)
 /*
   This is basically overriding the existing normal <input> directive. I am not sure of the ramifications
   doing this, however, I am not sure of a way to extend the original functionality of an input directive in angular.

@@ -18,15 +18,31 @@ $dark:                            #444 !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
+$energized:  #E8A81F;
+$balanced: #1874CD;
+
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
 $metroCardOrange:  #E8A81F;
+$metroCardBlue:    #1874CD;
 
 .scroll {
     height: 100%;
 }
 
+.login {
+  background-color: $metroCardBlue;
+  border-top: 1px solid $metroCardBlue;
+  border-bottom: 1px solid black;
+  border-right: 1px solid $metroCardBlue;
+
+
+}
+
+.login-input {
+    color: white;
+}
 
 
 
@@ -39,10 +55,8 @@ $metroCardOrange:  #E8A81F;
   border-top-right-radius: 0px;
 }
 
-.messageDetailsView {
-  .sendKardmaBtn{
-    padding-right: 10px;
-  }
+
+
   .item-input-inset {
     padding-left: 5px;
     padding-right: 5px;
@@ -96,9 +110,60 @@ $metroCardOrange:  #E8A81F;
     margin-left: 0px !important;
   }
 
-}
 
 #map {
     width: 100%;
-    height: 70%;
+    height: 100%;
 }
+
+.big-container {
+    background: url('../img/subwaymap.png') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.turnstile {
+  background: url('../img/turnstile.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+}
+
+.content-container {
+    padding: 40px 0px;
+    background-color: $metroCardOrange;
+    width: 70%;
+    margin-left: 15%;
+    margin-top: 50%;
+}
+
+.header-bar {
+  background-color: red;
+}
+
+.request {
+  width: 60%;
+  margin-left: 20%;
+  margin-top: 40%;
+  background-color: $dark;
+  color: #F5F5F5;
+}
+
+.request:hover {
+  color: $metroCardBlue;
+}
+
+ #waiter_pic {
+    height: auto;
+    width: auto;
+    max-height: 75px;
+    max-width: 300px;
+ }
+
+ .person-waiting {
+    background-color: $metroCardOrange;
+ }

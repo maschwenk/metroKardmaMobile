@@ -12,7 +12,7 @@ angular.module('starter', ['ionic',
                             'ngCordova', 'firebase', 'Devise' //third parties
                           ])
 
-.run(function($ionicPlatform, $state, $rootScope, $q, Auth) {
+.run(function($ionicPlatform, $state, $rootScope, $q, Auth, $log) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -29,6 +29,13 @@ angular.module('starter', ['ionic',
   $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
       , fromState, fromParams) {
 
+    //this below code will help see what happens during various state transitions - TA
+    $log.debug('successfully changes states');
+    $log.debug('event', e);
+    $log.debug('toState', toState);
+    $log.debug('toParams', toParams);
+    $log.debug('fromState', fromState);
+    $log.debug('fromParams', fromParams);
 
     var isLogin = toState.name === "login";
 
@@ -66,70 +73,63 @@ angular.module('starter', ['ionic',
 .config(function($stateProvider, $urlRouterProvider, $httpProvider, AuthProvider) {
 
   $httpProvider.defaults.withCredentials = true;
-  // Ionic uses AngularUI Router which uses the concept of states
-  // Learn more here: https://github.com/angular-ui/ui-router
-  // Set up the various states which the app can be in.
-  // Each state's controller can be found in controllers.js
+
   $stateProvider
 
   // setup an abstract state for the tabs directive
   .state('tab', {
     url: '/tab',
     abstract: true,
-    templateUrl: 'templates/tabs.html'
+    templateUrl: 'templates/tabs.html',
+    controller: function ($scope, $rootScope) {
+      //consider emitting an event from the chatDetail controller to say that a chat is in progress.  Listen to that event here and set a value to true, then use disabled property of ion-tabs to disable tabs
+
+      // $scope.chatIsHappening = function() {
+      //   return true;
+      // }
+    }
   })
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
-    params: {role:null},
+  .state('tab.map', {
+    url: '/map',
+    cache: false,
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl as dashCtl'
+      'tab-map': {
+        templateUrl: 'templates/tab-map.html',
+        controller: 'MapCtrl as mapCtl'
       }
     }
   })
-  .state('tab.dash.station', {
-    params: {stationId:null, role: null},
-    views: {
-      'tab-dash-station': {
-        templateUrl: function($stateParams) {
-          return 'templates/tab-dash-'+ $stateParams.role + '-station.html'
-        },
-        controller: 'StationCtrl'
-      }
-    },
+  .state('tab.map.station', {
+    params: {stationId:null},
+    cache: false,
+    controller: 'StationCtrl as stationCtl',
     resolve: {
-      station: function($stateParams, Station, SwiperSwipeeRole) {
-        return Station.get($stateParams.stationId, SwiperSwipeeRole.getCurrentRole())
-      },
-      pendingExchange: function(station, $state, $stateParams) {
-        if (station.pending_exchange_for_user.length > 0) {
-          $state.go('tab.dash.pending', {stationId: station.id, role: $stateParams.role})
-        }
+      station: function($stateParams, stationService, SwiperSwipeeRoleService) {
+        return stationService.get($stateParams.stationId)
       }
-
     }
   })
 
-  .state('tab.dash.pending', {
-    params: {role: null, stationId:null},
-    views: {
-      'tab-dash-station': {
-        templateUrl:'templates/tab-dash-pending.html',
-        controller: 'PendingCtrl'
-      }
-    },
+  .state('tab.map.pending', {
+    params: {exchangeId:null},
+    cache: false,
+    controller: 'PendingCtrl as pendingCtl',
     resolve: {
-      station: function($stateParams, Station, SwiperSwipeeRole) {
-        return Station.get($stateParams.stationId, SwiperSwipeeRole.getCurrentRole())
-      },
-      exchange: function(station) {
-        return station.pending_exchange_for_user[0]
+      exchange: function($stateParams, kardmaExchangeService) {
+        return kardmaExchangeService.get($stateParams.exchangeId);
       }
     }
+    // resolve: {
+    //   station: function($stateParams, stationService, SwiperSwipeeRoleService) {
+    //     return stationService.get($stateParams.stationId, SwiperSwipeeRoleService.getCurrentRole())
+    //   },
+    //   exchange: function(station) {
+    //     return station.pending_exchange_for_user[0]
+    //   }
+    // }
   })
 
   .state('tab.chats', {
@@ -146,6 +146,7 @@ angular.module('starter', ['ionic',
 
   .state('tab.chat-detail', {
     url: '/chats/:chatId',
+    cache: false,
     views: {
       'tab-chats': {
         templateUrl: 'templates/chat-detail.html',
@@ -160,6 +161,7 @@ angular.module('starter', ['ionic',
   })
   .state('swiper-swipee-choice',{
       url: '/swiperSwipeeChoice',
+      cache: false,
       controller: 'SwiperSwipeeChoiceCtl as swiperSwipeeChoiceCtl',
       templateUrl: 'templates/swiper-swipee-choice.html'
   })
@@ -181,6 +183,6 @@ angular.module('starter', ['ionic',
   AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
   AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/swiperSwipeeChoice');
+  $urlRouterProvider.otherwise('/login');
 
 });
