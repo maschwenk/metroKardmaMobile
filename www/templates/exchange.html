@@ -1,6 +1,6 @@
 <!-- <p ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)">{{exchangeCtl.waiter.first_name}} (Average Rating: {{exchangeCtl.waiter.average_rating}})</p> -->
 
-<div ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)" class="row person-waiting">
+<div class="row person-waiting">
   <div class="col-10">
     <img id="waiter_pic" src="img/default-avatar.png" />
   </div>
@@ -8,6 +8,6 @@
     <h2 style="margin-top: 50%;">{{exchangeCtl.waiter.first_name}}</h2>
   </div>
   <div class="col-35 col-offset-10">
-    <button style="margin-top: 10%" class="button button-block button-dark" ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)">Provide Swipe</button>
+    <button style="margin-top: 10%" class="button button-block button-dark" ng-click="exchangeCtl.updateExchangeAndStartChat(exchange.id)" ng-switch="exchangeCtl.role"><span ng-switch-when="swiper">Provide Swipe</span><span ng-switch-when="swipee">Request Swipe</span></button>
   </div>
 </div>

@@ -53,7 +53,7 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
 
   function startRefresh(){
     vm.messagesIntervalObj = $interval(getAllMessages, 1000);
-    vm.checkForCompletionInterval = $interval(checkForCompletion, 10000);
+    vm.checkForCompletionInterval = $interval(checkForCompletion, 1000);
   }
 
   function getAllMessages(){

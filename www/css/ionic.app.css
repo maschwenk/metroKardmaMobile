@@ -9102,40 +9102,37 @@ a.button {
   border-bottom-right-radius: 0px;
   border-top-right-radius: 0px; }
 
-.messageDetailsView .sendKardmaBtn {
-  padding-right: 10px; }
-
-.messageDetailsView .item-input-inset {
+.item-input-inset {
   padding-left: 5px;
   padding-right: 5px; }
 
-.messageDetailsView .item-input-wrapper {
+.item-input-wrapper {
   border-radius: 0 !important; }
 
-.messageDetailsView .item-input-wrapper input {
+.item-input-wrapper input {
   height: 32px !important;
   padding-bottom: 0;
   padding-top: 0; }
 
-.messageDetailsView .chatMessages, .messageDetailsView .myMessage, .messageDetailsView .theirMessage {
+.chatMessages, .myMessage, .theirMessage {
   color: white;
   border: none;
   padding: 10px; }
-  .messageDetailsView .chatMessages span, .messageDetailsView .myMessage span, .messageDetailsView .theirMessage span {
+  .chatMessages span, .myMessage span, .theirMessage span {
     padding: 10px;
     border-radius: 10px; }
 
-.messageDetailsView .myMessage {
+.myMessage {
   text-align: right; }
-  .messageDetailsView .myMessage span {
+  .myMessage span {
     background-color: #007AFF; }
 
-.messageDetailsView .theirMessage {
+.theirMessage {
   text-align: left; }
-  .messageDetailsView .theirMessage span {
+  .theirMessage span {
     background-color: #C7C7CC; }
 
-.messageDetailsView .sendMessageBtn {
+.sendMessageBtn {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 10px;
