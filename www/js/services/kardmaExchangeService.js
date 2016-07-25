@@ -1,49 +1,49 @@
-angular.module('starter.services').factory('kardmaExchangeService', function($http) {
+angular.module('starter.services').factory('kardmaExchangeService', function($http, configurationService) {
   var o = {
   };
 
   o.get = function(id) {
-    return $http.get('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(res) {
+    return $http.get(configurationService.getDomain() + '/kardma_exchanges/' + id + '.json').then(function(res) {
         return res.data;
     });
   }
 
   o.getAll = function() {
-    return $http.get('http://localhost:3000/kardma_exchanges.json').then(function(res) {
+    return $http.get(configurationService.getDomain() + '/kardma_exchanges.json').then(function(res) {
         return res.data;
     });
   }
 
   o.create = function(stationId, role) {
-    return $http.post('http://localhost:3000/kardma_exchanges', {'station_id': stationId, 'role': role}).then(function(res) {
+    return $http.post(configurationService.getDomain() + '/kardma_exchanges', {'station_id': stationId, 'role': role}).then(function(res) {
         return res.data;
     })
   };
 
   o.cancel = function(id) {
-    return $http.delete('http://localhost:3000/kardma_exchanges/' + id + '.json').then(function(response) {
+    return $http.delete(configurationService.getDomain() + '/kardma_exchanges/' + id + '.json').then(function(response) {
 
     })
   };
 
   o.updateWithMatch = function(id) {
-    return $http.put('http://localhost:3000/kardma_exchanges/update_with_match/' + id + '.json')
+    return $http.put(configurationService.getDomain() + '/kardma_exchanges/update_with_match/' + id + '.json')
   };
 
   o.completeExchange = function(id) {
-    return $http.put('http://localhost:3000/kardma_exchanges/update_with_complete/' + id + '.json').then(function(res) {
+    return $http.put(configurationService.getDomain() + '/kardma_exchanges/update_with_complete/' + id + '.json').then(function(res) {
       return res.data;
     })
   }
 
   o.cancelThenCreate= function(idToCancel, newStationId, role)  {
-    return $http.delete('http://localhost:3000/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
-        $http.post('http://localhost:3000/kardma_exchanges', {'station_id': newStationId, 'role': role})
+    return $http.delete(configurationService.getDomain() + '/kardma_exchanges/' + idToCancel + '.json').then(function(response) {
+        $http.post(configurationService.getDomain() + '/kardma_exchanges', {'station_id': newStationId, 'role': role})
     })
   };
 
   o.getPendingExchangeForUser = function(userId) {
-    return $http.get('http://localhost:3000/kardma_exchanges/pending_exchange/' + userId + '.json').then(function(res) {
+    return $http.get(configurationService.getDomain() + '/kardma_exchanges/pending_exchange/' + userId + '.json').then(function(res) {
       return res.data;
     })
   }

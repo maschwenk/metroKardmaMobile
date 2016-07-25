@@ -1,10 +1,10 @@
-angular.module('starter.services').factory('stationService', function($http) {
+angular.module('starter.services').factory('stationService', function($http, configurationService) {
   var o = {
     stations: []
   };
 
   o.getAll = function() {
-    return $http.get('http://localhost:3000/stations/').then(function(res) {
+    return $http.get(configurationService.getDomain() + '/stations/').then(function(res) {
       return res.data;
     }, function (err) {
       console.log(err);
@@ -12,7 +12,7 @@ angular.module('starter.services').factory('stationService', function($http) {
   }
 
   o.get = function(id) {
-    return $http.get('http://localhost:3000/stations/' + id + '.json').then(function(res){
+    return $http.get(configurationService.getDomain() + '/stations/' + id + '.json').then(function(res){
         return res.data
     }, function(err){
       console.log(err)

@@ -8,7 +8,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic',
-                            'starter.controllers', 'starter.services', 'starter.directives', 'starter.filters', //our modules
+                            'starter.controllers', 'starter.services', 'starter.directives', 'starter.filters', 'starter.configuration', //our modules
                             'ngCordova', 'firebase', 'Devise' //third parties
                           ])
 
@@ -180,8 +180,8 @@ angular.module('starter', ['ionic',
 
 
   AuthProvider.loginMethod('POST');
-  AuthProvider.loginPath('http://localhost:3000/users/sign_in.json');
-  AuthProvider.logoutPath('http://localhost:3000/users/sign_out.json');
+  AuthProvider.loginPath('http://localhost:3000' + '/users/sign_in.json');
+  AuthProvider.logoutPath('http://localhost:3000' + '/users/sign_out.json');
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 
