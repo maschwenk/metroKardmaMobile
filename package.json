@@ -1,6 +1,12 @@
 {
   "name": "metrokardmamobile",
   "version": "1.0.0",
+  "private": false,
+  "author": "Travis",
+  "engines": {
+    "node": "5.1.0",
+    "npm": "3.4.1"
+  },
   "description": "metroKardmaMobile: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
@@ -16,7 +22,8 @@
     "gulp-sass": "^2.2.0",
     "gulp-util": "^3.0.7",
     "node-sass": "^3.4.2",
-    "shelljs": "^0.3.0"
+    "shelljs": "^0.3.0",
+    "express": "4.13.3"
   },
   "cordovaPlugins": [
     "cordova-plugin-device",
