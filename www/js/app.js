@@ -184,5 +184,6 @@ angular.module('starter', ['ionic',
   AuthProvider.logoutPath('https://guarded-earth-43436.herokuapp.com' + '/users/sign_out.json');
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
+  //arbitrary comment
 
 });
