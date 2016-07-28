@@ -1,4 +1,4 @@
-angular.module('starter.controllers').controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate, SwiperSwipeeRoleService, kardmaExchangeService, $state) {
+angular.module('starter.controllers').controller('ChatDetailCtrl', function($scope, $stateParams, Chat, Auth, User,$resource, $timeout, $interval,$ionicScrollDelegate, SwiperSwipeeRoleService, kardmaExchangeService, $state, configurationService) {
   var vm = this;
   var isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
@@ -57,7 +57,7 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
   }
 
   function getAllMessages(){
-    var Messages = $resource('http://localhost:3000/chats/:chatId/messages/',
+    var Messages = $resource(configurationService.getDomain() + '/chats/:chatId/messages/',
       {chatId: vm.chat.id});
     //very simplistic change detection, other ways of doing this
     var prevLength = vm.messages.length
@@ -83,7 +83,7 @@ angular.module('starter.controllers').controller('ChatDetailCtrl', function($sco
     })
   }
   function sendMessage(){
-    var Message = $resource('http://localhost:3000/chats/:chatId/messages/:messageId',
+    var Message = $resource(configurationService.getDomain() + 'chats/:chatId/messages/:messageId',
       {chatId: vm.chat.id, messageId:'@id'});
     var newMessage = new Message({
       body: vm.messageToSend,

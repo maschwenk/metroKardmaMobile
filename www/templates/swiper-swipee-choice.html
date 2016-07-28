@@ -5,7 +5,7 @@
     <h3 class="title">Total Kardma: {{swiperSwipeeChoiceCtl.curUserKardmaCount}}</h2>
   </div>
     <div class="content-container">
-      <button class="button button-block button-balanced" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swipee')">
+      <button ng-disabled="swiperSwipeeChoiceCtl.curUserKardmaCount < 1" class="button button-block button-balanced" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swipee')">
         I Need a Swipe
       </button>
       <button class="button button-block button-dark" ng-click="swiperSwipeeChoiceCtl.setRoleAndGoToMap('swiper')">
