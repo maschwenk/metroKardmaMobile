@@ -2,5 +2,5 @@
 angular.module('starter.configuration', [])
 .constant('DOMAIN_CONFIG', {
   // DOMAIN_NAME: 'https://guarded-earth-43436.herokuapp.com'
-  DOMAIN_NAME: 'https://localhost:3000'
+  DOMAIN_NAME: 'http://localhost:3000'
 })
