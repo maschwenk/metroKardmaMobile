@@ -56,7 +56,7 @@ angular.module('starter', ['ionic',
        $state.go('login');
      }
       if (Auth.isAuthenticated()) {
-       return true;
+
        //force user to go to open chat if they have one.
        if (isChat || isPendingExchange) {
          return true;
