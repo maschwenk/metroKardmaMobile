@@ -12,7 +12,7 @@ angular.module('starter', ['ionic',
                             'ngCordova', 'firebase', 'Devise' //third parties
                           ])
 
-.run(function($ionicPlatform, $state, $rootScope, $q, Auth, $log) {
+.run(function($ionicPlatform, $state, $rootScope, $q, Auth, $log, kardmaExchangeService, SwiperSwipeeRoleService) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -39,13 +39,50 @@ angular.module('starter', ['ionic',
 
     var isLogin = toState.name === "login";
 
-    if(isLogin){
-      return true; // no need to redirect
-    }
+    var isChat = toState.name === "tab.chat-detail"
+     var isPendingExchange = toState.name === "tab.map.pending"
 
-    if (Auth.isAuthenticated()) {
-      return true;
-    }
+     //if user is not logged in, redirect to login state
+     //if they are logged in, check for an open chat/pending exchange
+         //if they have open chat or pending exchange, set their role as the role that they are in that exchange/chat
+         //if they have nothing pending, but no role is set, redirect them to the choice state
+
+      if(isLogin){
+        return true; // no need to redirect
+      }
+
+     if (Auth._currentUser == null) {
+       e.preventDefault();
+       $state.go('login');
+     }
+      if (Auth.isAuthenticated()) {
+       return true;
+       //force user to go to open chat if they have one.
+       if (isChat || isPendingExchange) {
+         return true;
+       }
+       var currentUserId = Auth._currentUser.id
+       kardmaExchangeService.getPendingExchangeForUser(currentUserId).then(function(exchange) {
+         if (exchange == null) {
+           if (SwiperSwipeeRoleService.getCurrentRole == undefined) {
+             e.preventDefault();
+             $state.go('swiper-swipee-choice');
+           }
+           return true
+         }
+         e.preventDefault();
+         var restoredRole = exchange.swipee_id == currentUserId ? 'swipee' : 'swiper'
+
+         SwiperSwipeeRoleService.setCurrentRole(restoredRole)
+         if (exchange.chat != null) {
+           $state.go('tab.chat-detail', {'chatId': exchange.chat.id})
+         }
+         // if pending exchange but no branch, go to exchange
+         else {
+           $state.go('tab.map.pending', {exchangeId: exchange.id})
+         }
+       })
+      }
     else{
       Auth.currentUser()
         .then(function(){
@@ -180,8 +217,13 @@ angular.module('starter', ['ionic',
 
 
   AuthProvider.loginMethod('POST');
-  AuthProvider.loginPath('https://guarded-earth-43436.herokuapp.com' + '/users/sign_in.json');
-  AuthProvider.logoutPath('https://guarded-earth-43436.herokuapp.com' + '/users/sign_out.json');
+
+  //uncomment when deploying
+  // AuthProvider.loginPath('https://guarded-earth-43436.herokuapp.com' + '/users/sign_in.json');
+  // AuthProvider.logoutPath('https://guarded-earth-43436.herokuapp.com' + '/users/sign_out.json');
+
+    AuthProvider.loginPath('http:localhost:3000' + '/users/sign_in.json');
+  AuthProvider.logoutPath('http:localhost:3000' + '/users/sign_out.json');
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
   //arbitrary comment

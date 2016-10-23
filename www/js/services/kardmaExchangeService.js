@@ -47,7 +47,11 @@ angular.module('starter.services').factory('kardmaExchangeService', function($ht
       return res.data;
     })
   }
-
+  o.getOpenChat = function(userId) {
+     return $http.get(configurationService.getDomain() + '/chats/open_chat/' + userId + '.json').then(function(res) {
+       return res.data;
+     })
+   }
 
   o.setAllExchanges = function(exchanges) {
     o.allExchanges = exchanges
